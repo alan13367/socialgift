@@ -1,13 +1,8 @@
 <template>
 
   <body>
-    <header>
-      <h1>Nombre de la lista seleccionada</h1>
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar">
-        <button><img src="lupa.png" alt="Buscar"></button>
-      </div>
-    </header>
+    
+    <header />
     <main>
       <ol>
         <li>
@@ -25,7 +20,7 @@
     </main>
   </body>
 
-
+  <footer />  
 
 </template>
   
