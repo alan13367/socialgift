@@ -17,14 +17,13 @@ export default {
 
 
 <template>
-  <div class="imageneslogin">
-    <img src="@/assets/Imagenes/facebooklogin.png" alt="">
-    <img src="@/assets/Imagenes/googlelogin.png" alt="">
-    <h2></h2>
-  </div>
     <div class="login-container">
+      <div class="imageneslogin">
+        <img src="@/assets/Imagenes/facebooklogin.png" alt="">
+        <img src="@/assets/Imagenes/googlelogin.png" alt="">
+        <h2>Or</h2>
+      </div>
       <form class="login-form" @submit.prevent="submitForm">
-        
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="email" required>
   
@@ -39,8 +38,23 @@ export default {
 
   
   <style>
+
+.imageneslogin {
+    display: flex;
+    padding-bottom: 5ch;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+  }
+  .imageneslogin img {
+  margin-bottom: 10px; 
+  padding: 10px; 
+  }
   .login-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;

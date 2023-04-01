@@ -20,6 +20,11 @@ export default {
 
 <template>
     <div class="login-container">
+      <div class="imageneslogin">
+        <img src="@/assets/Imagenes/facebooklogin.png" alt="">
+        <img src="@/assets/Imagenes/googlelogin.png" alt="">
+        <h2>Or</h2>
+      </div>
       <form class="login-form" @submit.prevent="submitForm">
         <label for="name">Name:</label>
         <input type="text" id="name" v-model="name" required>
@@ -46,7 +51,23 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
+    }
+
+    .imageneslogin {
+      display: flex;
+      padding-bottom: 5ch;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .imageneslogin img {
+    margin-bottom: 10px; 
+    padding: 10px; 
     }
     
     .login-form {
