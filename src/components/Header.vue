@@ -25,7 +25,7 @@ header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  position: absolute;
+  
   width: 100%;
   height: 97px;
   left: 0px;

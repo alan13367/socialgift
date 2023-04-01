@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 
   <Header />
   <main>
@@ -15,6 +16,15 @@
     <div class="right-container">
       <img src="mobile.png" alt="Imagen de la aplicación en un dispositivo móvil">
     </div>
+=======
+  <div>
+    <Header />
+    <main>
+      <img src="@/assets/logo.png" alt="Vue logo" />
+      <HelloWorld msg="Welcome to Your Vue.js App" />
+    </main>
+    
+>>>>>>> a9ce0e2e85d9a07bd5a788327d8c59513f80fcac
   </div>
   </main>
   <Footer />

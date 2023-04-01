@@ -19,7 +19,6 @@ export default {
 </script>
 
 <template>
-    <h2>Sign Up</h2>
     <div class="login-container">
       <form class="login-form" @submit.prevent="submitForm">
         <label for="name">Name:</label>
