@@ -1,18 +1,70 @@
 <template>
-
-<footer>
-    <div class="logo">
-      <img src="@/assets/imagenes/logo.png" alt="Logo de la empresa">
-    </div>
-    <div class="enlaces">
-      <ul>
-        <li><a href="#">Acerca de</a></li>
-        <li><a href="#">Ayuda</a></li>
-        <li><a href="#">Contacto</a></li>
-        <li>&copy; 2023 SocialGift. Todos los derechos reservados</li>
-      </ul>
-    </div>
-  </footer>
-
-
+  <div class="footer-container">
+    <footer>
+      <div class="logo">
+        <img src="logo.png" alt="Logo de la empresa">
+      </div>
+      <div class="enlaces">
+        <ul>
+          <li><a href="#">Acerca de</a></li>
+          <li><a href="#">Ayuda</a></li>
+          <li><a href="#">Contacto</a></li>
+          <li>&copy; 2023 SocialGift. Todos los derechos reservados</li>
+        </ul>
+      </div>
+    </footer>
+  </div>
 </template>
+
+<style scoped>
+  .footer-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 32px 112px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    width: 74px;
+    height: 57px;
+    margin-right: 32px;
+  }
+
+  .enlaces {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .enlaces ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 32px;
+  }
+
+  .enlaces li {
+    margin-left: 32px;
+  }
+
+  .enlaces a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .enlaces li:last-child {
+    margin-left: auto;
+  }
+</style>

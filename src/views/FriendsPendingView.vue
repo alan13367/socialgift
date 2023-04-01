@@ -1,4 +1,6 @@
 <template>
+  <Header />
+  <body>
   <div>
     <h2>Solicitudes</h2>
     <div>
@@ -26,34 +28,21 @@
       </div>
     </div>
   </div>
+  </body>
+  <Footer />
 </template>
 
-<script>
-export default {
-  name: 'friendsPending',
-  props: {
-    pendingRequests: {
-      type: Array,
-      required: true,
-    },
-    pendingSends: {
-      type: Array,
-      required: true,
-    },
-  },
-  methods: {
-    acceptRequest(request) {
-      // Lógica para aceptar una solicitud.
-    },
-    markAsPending(request) {
-      // Lógica para marcar una solicitud como pendiente.
-    },
-  },
-};
-</script>
 
-<style>
-/* Estilos para el componente friendsPending */
-</style>
+<script>
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+
+export default {
+  components: {
+    Header,
+    Footer,
+  },
+}
+</script>
 
 

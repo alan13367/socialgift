@@ -18,24 +18,17 @@
   </div>
 </template>
 
-<script>
+
+  <script>
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+
 export default {
-  name: 'UserProfile',
-  props: {
-    userFullName: {
-      type: String,
-      required: true,
-    },
-    userImageUrl: {
-      type: String,
-      required: true,
-    },
-    wishlistItems: {
-      type: Array,
-      required: true,
-    },
+  components: {
+    Header,
+    Footer,
   },
-};
+}
 </script>
 
 

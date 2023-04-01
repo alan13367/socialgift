@@ -43,18 +43,19 @@
         <div class="grid-item">Lista 20</div>
       </div>
     </div>
-    <footer>
-      <div class="footer-left">
-        <button>About</button>
-        <button>Help</button>
-        <button>Contact</button>
-      </div>
-      <div class="footer-right">
-        <p>&copy; 2023</p>
-      </div>
-    </footer>
+    <footer />
   </body>
 
 </template>
   
-  
+<script>
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+
+export default {
+  components: {
+    Header,
+    Footer,
+  },
+}
+</script>
