@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import NavBar from './components/NavBar.vue';
+import AuthButtons from './components/AuthButtons.vue';
 
 </script>
 
@@ -9,11 +11,6 @@ import { RouterLink, RouterView } from 'vue-router'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
-        <RouterLink to="/wishListFriends">wishListFriends</RouterLink>
-        <RouterLink to="/wishListFriendsEdit">wishListFriendsEdit</RouterLink>
-        <RouterLink to="/ManageFriends">ManageFriends</RouterLink>
-        <RouterLink to="/FriendsPending">FriendsPending</RouterLink>
-        <RouterLink to="/UserProfile">UserProfile</RouterLink>
       </nav>
     </div>
   </header>
