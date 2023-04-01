@@ -18,7 +18,7 @@
 
 <style scoped>
   .footer-container {
-    width: 100%;
+    weight: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

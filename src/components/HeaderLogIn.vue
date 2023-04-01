@@ -3,12 +3,15 @@
     <nav class="left-nav">
       <img src="logo.png" alt="Logo de la empresa">
       <ul>
+        <RouterLink to="/">Home</RouterLink>
         <li><a href="#">Aniversario</a></li>
         <li><a href="#">Cumpleaños</a></li>
         <li><a href="#">Otros</a></li>
       </ul>
     </nav>
     <nav class="right-nav">
+      <RouterLink to="/login">Login</RouterLink>
+      <RouterLink to="/signup">SignUp</RouterLink>
       <button>Sign In</button>
       <button>Sign Up</button>
     </nav>

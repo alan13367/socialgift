@@ -1,111 +1,115 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
+import WishListFriends from '../views/WishListFriendsView.vue'
+import WishListFriendsEdit from '../views/WishListFriendsEditView.vue'
+import ManageFriends from '../views/ManageFriendsView.vue'
+import FriendsPending from '../views/FriendsPendingView.vue'
+import UserProfile from '../views/UserProfileView.vue'
+import SignUpView from '../views/SignUpView.vue'
+
+
 <template>
   <header>
     <nav>
-      <div class="nav-left">
-        <img src="logo.png" alt="Logo de la empresa">
-        <ul>
-        <RouterLink to="/FriendsPending">FriendsPending</RouterLink>
-        <RouterLink to="/ManageFriends">ManageFriends</RouterLink>
-        <RouterLink to="/UserProfile">UserProfile</RouterLink>
-        <RouterLink to="/WishListFriendsEdit">WishListFriendsEdit</RouterLink>
-        <RouterLink to="/WishListFriends">WishListFriends</RouterLink>
-        </ul>
+      <div class="menu">
+        <RouterLink to="/">
+          <img src="logo.png" alt="Logo de la empresa" />
+        </RouterLink>
+        <div class="menu-links">
+          <RouterLink to="/FriendsPending" class="menu-link">
+            Solicitudes amigos
+          </RouterLink>
+          <RouterLink to="/ManageFriends" class="menu-link">
+            Amigos
+          </RouterLink>
+          <RouterLink to="/UserProfile" class="menu-link">
+            Perfil
+          </RouterLink>
+          <RouterLink to="/WishListFriendsEdit" class="menu-link">
+            Regalar
+          </RouterLink>
+          <RouterLink to="/WishListFriends" class="menu-link">
+            Listas Amigos
+          </RouterLink>
+        </div>
       </div>
-      <div class="nav-right">
-        <button><i class="alerts"></i></button>
-        <button>Log Out</button>
+      <div class="actions">
+        <button>
+          <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" 
+          />
+        </button>
+        <button>
+          <img src="@/assets/Imagenes/logoff.png" alt="Cerrar Sesion"
+           />
+        </button>
       </div>
     </nav>
   </header>
 </template>
 
 <style>
-header {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  
-  width: 100%;
-  height: 97px;
-  left: 0px;
-  top: 0px; 
-  border-bottom: 5px solid #000000;
-  
-  background-color: #ffffff;
-  z-index: 1;
-}
+  header {
+    border-bottom: 5px solid #000000;
+    background-color: #ffffff;
+    width: 100%;
+    z-index: 1;
+  }
 
-.left-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start; 
-  padding: 0px;
-  gap: 2%;
-  height: 57px;
-  flex-basis: 70%;
-  background: #FFFFFF;
-}
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 2%;
+  }
 
+  img {
+    height: 50px;
+  }
 
-.right-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 2%;
-  height: 32px;
-  flex-basis: 30%;
-}
+  .menu {
+    display: flex;
+    align-items: center;
+    height: 80%;
+    width: 80%;
+  }
 
-img {
-  width: 15%;
-  height: 100%;
-  background: url(logo.png);
-}
+  .menu-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+    width: 80%;
+  }
 
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 85%;
-}
+  .menu-link {
+    font-family: 'Inter';
+    font-style: semibold;
+    font-weight: 100;
+    font-size: 18px;
+    color: #000000;
+    text-decoration: none;
+    padding-bottom: 1%;
+    border-bottom: 2px solid transparent;
+  }
 
-li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  margin-right: 2%;
-}
+  .menu-link:hover,
+  .menu-link:focus {
+    border-bottom: 2px solid #000000;
+  }
 
-a {
-  width: 100%;
-  height: 20px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-  font-feature-settings: 'liga' off;
-  color: #111827;
-}
+  .actions button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+    width: 48%;
+    height: 40;
+    
+  }
 
-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0 10px;
-  width: 45%;
-  height: 32px;
-  /* Primary/600 */
-  background: #7C3AED;
-  border-radius: 8px;
-}
+  .actions button img {
+    height: 25px;
+  }
 </style>

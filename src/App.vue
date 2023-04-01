@@ -7,24 +7,20 @@ import MyHeader from './components/Header.vue';
 </script>
 
 <template>
-<header>
-  <MyHeader></MyHeader>
-</header>
-    <div>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-        <RouterLink to="/signup">SignUp</RouterLink>
-        
-      </nav>
-    </div>
-  
-  <RouterView />
-  <footer>
-    <MyFooter>
-  </MyFooter>
-  </footer>
-  
+  <div>
+    <header>
+      <MyHeader>
+      </MyHeader>
+    </header>
+    <main>
+      <RouterView>
+      </RouterView>
+    </main>
+    <footer>
+      <MyFooter>
+      </MyFooter>
+    </footer>
+  </div>
 </template>
 
 
