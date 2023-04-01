@@ -15,8 +15,7 @@ export default {
 };
 </script>
 
-<header>
-</header>
+
 <template>
     <h2>Login</h2>
     <div class="login-container">
@@ -28,7 +27,7 @@ export default {
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="password" required>
   
-        <button type="submit">Submit</button>
+        <button type="submit" class="submit-btn">LogIn</button>
       </form>
     </div>
   </template>
@@ -46,14 +45,50 @@ export default {
   .login-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    max-width: 400px;
+    align-items: left;
     width: 100%;
+    max-width: 100%;
     padding: 20px;
-    border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+  }
+  
+  .login-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .login-form label {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .login-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .submit-btn {
+  background-color: #A33DA5;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+  
+  @media screen and (min-width: 768px) {
+    .login-form {
+      max-width: 500px;
+    }
   }
   </style>
-  
   

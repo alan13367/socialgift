@@ -6,6 +6,7 @@ import WishListFriendsEdit from '../views/WishListFriendsEditView.vue'
 import ManageFriends from '../views/ManageFriendsView.vue'
 import FriendsPending from '../views/FriendsPendingView.vue'
 import UserProfile from '../views/UserProfileView.vue'
+import SignUpView from '../views/SignUpView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,12 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignUpView
+
     },
     {
       path: '/wishlistfriends',
