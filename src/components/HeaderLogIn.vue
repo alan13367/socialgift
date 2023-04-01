@@ -1,108 +1,104 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
+import SignUpView from '../views/SignUpView.vue'
+
 <template>
   <header>
-    <nav class="left-nav">
-      <img src="logo.png" alt="Logo de la empresa">
-      <ul>
-        <RouterLink to="/">Home</RouterLink>
-        <li><a href="#">Aniversario</a></li>
-        <li><a href="#">Cumpleaños</a></li>
-        <li><a href="#">Otros</a></li>
-      </ul>
-    </nav>
-    <nav class="right-nav">
-      <RouterLink to="/login">Login</RouterLink>
-      <RouterLink to="/signup">SignUp</RouterLink>
-      <button>Sign In</button>
-      <button>Sign Up</button>
+    <nav>
+      <div class="menu">
+        <RouterLink to="/">
+          <img src="logo.png" alt="Logo de la empresa" />
+        </RouterLink>
+        <div class="menu-links">
+          <RouterLink to="/" class="menu-link">
+            Aniversario
+          </RouterLink>
+          <RouterLink to="/" class="menu-link">
+            Cumpleaños
+          </RouterLink>
+          <RouterLink to="/" class="menu-link">
+            Otros
+          </RouterLink>
+         
+        </div>
+      </div>
+      <div class="actions">
+        <button>
+          <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" 
+          />
+        </button>
+        <button>
+          <img src="@/assets/Imagenes/logoff.png" alt="Cerrar Sesion"
+           />
+        </button>
+      </div>
     </nav>
   </header>
 </template>
-<style scoped>
-header {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 2% 5%;
-  position: absolute;
-  width: 100%;
-  height: 97px;
-  left: 0px;
-  top: -9px;
-  border-bottom: 5px solid #000000;
-  flex-wrap: wrap;
-}
 
-.left-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start; 
-  padding: 0px;
-  gap: 2%;
-  height: 57px;
-  flex-basis: 70%;
-  background: #FFFFFF;
-}
+<style>
+  header {
+    border-bottom: 5px solid #000000;
+    background-color: #ffffff;
+    width: 100%;
+    z-index: 1;
+  }
 
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 2%;
+  }
 
-.right-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 2%;
-  height: 32px;
-  flex-basis: 30%;
-}
+  img {
+    height: 50px;
+  }
 
-img {
-  width: 15%;
-  height: 100%;
-  background: url(logo.png);
-}
+  .menu {
+    display: flex;
+    align-items: center;
+    height: 80%;
+    width: 80%;
+  }
 
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 85%;
-}
+  .menu-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+    width: 80%;
+  }
 
-li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  margin-right: 2%;
-}
+  .menu-link {
+    font-family: 'Inter';
+    font-style: semibold;
+    font-weight: 100;
+    font-size: 18px;
+    color: #000000;
+    text-decoration: none;
+    padding-bottom: 1%;
+    border-bottom: 2px solid transparent;
+  }
 
-a {
-  width: 100%;
-  height: 20px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-  font-feature-settings: 'liga' off;
-  color: #111827;
-}
+  .menu-link:hover,
+  .menu-link:focus {
+    border-bottom: 2px solid #000000;
+  }
 
-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0 10px;
-  width: 45%;
-  height: 32px;
-  /* Primary/600 */
-  background: #7C3AED;
-  border-radius: 8px;
-}
+  .actions button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+    width: 48%;
+    height: 40;
+    
+  }
+
+  .actions button img {
+    height: 25px;
+  }
 </style>
