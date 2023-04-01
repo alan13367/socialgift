@@ -1,14 +1,3 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import WishListFriends from '../views/WishListFriendsView.vue'
-import WishListFriendsEdit from '../views/WishListFriendsEditView.vue'
-import ManageFriends from '../views/ManageFriendsView.vue'
-import FriendsPending from '../views/FriendsPendingView.vue'
-import UserProfile from '../views/UserProfileView.vue'
-import SignUpView from '../views/SignUpView.vue'
-
-
 <template>
   <header>
     <nav>
@@ -17,20 +6,26 @@ import SignUpView from '../views/SignUpView.vue'
           <img src="logo.png" alt="Logo de la empresa" />
         </RouterLink>
         <div class="menu-links">
-          <RouterLink to="/FriendsPending" class="menu-link">
-            Solicitudes amigos
+          <RouterLink to="/mywishlists" class="menu-link">
+            Mis Listas
           </RouterLink>
           <RouterLink to="/ManageFriends" class="menu-link">
             Amigos
           </RouterLink>
-          <RouterLink to="/UserProfile" class="menu-link">
-            Perfil
+          <RouterLink to="/WishListFriends" class="menu-link">
+            Listas Amigos
+          </RouterLink>
+          <RouterLink to="/Chats" class="menu-link">
+            Chats
+          </RouterLink>
+          <RouterLink to="/FriendsPending" class="menu-link">
+            Solicitudes amigos
           </RouterLink>
           <RouterLink to="/WishListFriendsEdit" class="menu-link">
             Regalar
           </RouterLink>
-          <RouterLink to="/WishListFriends" class="menu-link">
-            Listas Amigos
+          <RouterLink to="/UserProfile" class="menu-link">
+            Perfil
           </RouterLink>
         </div>
       </div>
@@ -66,6 +61,7 @@ import SignUpView from '../views/SignUpView.vue'
 
   img {
     height: 50px;
+    padding-right: 100px;
   }
 
   .menu {
