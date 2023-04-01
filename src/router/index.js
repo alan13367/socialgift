@@ -7,6 +7,7 @@ import ManageFriends from '../views/ManageFriendsView.vue'
 import FriendsPending from '../views/FriendsPendingView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import SignUpView from '../views/SignUpView.vue'
+import ChatsView from '../views/ChatsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,11 +53,15 @@ const router = createRouter({
 
     },
     {
+      path: '/Chats',
+      name:'Chats',
+      component: ChatsView
+    },
+    {
       path: '/UserProfile',
       name: 'UserProfile',
       component: UserProfile
     }
-    
   ]
 })
 
