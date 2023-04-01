@@ -15,11 +15,7 @@ import MyHeader from './components/Header.vue';
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
         <RouterLink to="/signup">SignUp</RouterLink>
-        <RouterLink to="/FriendsPending">FriendsPending</RouterLink>
-        <RouterLink to="/ManageFriends">ManageFriends</RouterLink>
-        <RouterLink to="/UserProfile">UserProfile</RouterLink>
-        <RouterLink to="/WishListFriendsEdit">WishListFriendsEdit</RouterLink>
-        <RouterLink to="/WishListFriends">WishListFriends</RouterLink>
+        
       </nav>
     </div>
   

@@ -4,11 +4,11 @@
       <div class="nav-left">
         <img src="logo.png" alt="Logo de la empresa">
         <ul>
-          <li><a href="#">ManageFriends</a></li>
-          <li><a href="#">UserProfile</a></li>
-          <li><a href="#">WishListFriendsEdit</a></li>
-          <li><a href="#">WishListFriends</a></li>
-          <li><a href="#">FriendsPending</a></li>
+        <RouterLink to="/FriendsPending">FriendsPending</RouterLink>
+        <RouterLink to="/ManageFriends">ManageFriends</RouterLink>
+        <RouterLink to="/UserProfile">UserProfile</RouterLink>
+        <RouterLink to="/WishListFriendsEdit">WishListFriendsEdit</RouterLink>
+        <RouterLink to="/WishListFriends">WishListFriends</RouterLink>
         </ul>
       </div>
       <div class="nav-right">
