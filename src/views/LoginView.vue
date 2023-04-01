@@ -17,7 +17,11 @@ export default {
 
 
 <template>
-    <h2>Login</h2>
+  <div class="imageneslogin">
+    <img src="@/assets/Imagenes/facebooklogin.png" alt="">
+    <img src="@/assets/Imagenes/googlelogin.png" alt="">
+    <h2></h2>
+  </div>
     <div class="login-container">
       <form class="login-form" @submit.prevent="submitForm">
         

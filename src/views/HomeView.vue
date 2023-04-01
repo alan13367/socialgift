@@ -5,7 +5,7 @@
       <img src="@/assets/logo.png" alt="Vue logo" />
       <HelloWorld msg="Welcome to Your Vue.js App" />
     </main>
-    <Footer />
+    
   </div>
 </template>
 
