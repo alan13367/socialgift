@@ -1,35 +1,29 @@
 <template>
+<main>
   <div class="manage-friends">
-    <header>
       <h1>Amigos</h1>
       <div class="search-bar">
         <input type="text" placeholder="Buscar">
         <button>Search</button>
       </div>
-    </header>
-    <main>
+  </div>
       <div class="friend-list">
         <div class="friend-item" v-for="friend in friends" :key="friend.id">
-          <img src="amigos.png" alt="Amigos">
-          <div class="friend-details">
-            <h2>{{ friend.name }}</h2>
-          </div>
-          <button>Editar</button>
+          <button class="dltFriend">Eliminar</button>
+          <img src="@/assets/Imagenes/friends.png" alt="Amigos">
+          <h3>{{ friend.name }}</h3>
         </div>
       </div>
-    </main>
     
-  </div>
+    
+  </main>
+    
+  
 </template>
 <script>
-import Header from "@/components/Header.vue";
+
 
 export default {
-  name: "ManageFriends",
-  components: {
-    Header,
-
-  },
   data() {
     return {
       friends: [
@@ -62,14 +56,6 @@ export default {
   padding: 24px;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 24px;
-}
-
 .search-bar {
   display: flex;
   align-items: center;
@@ -92,11 +78,17 @@ button {
   cursor: pointer;
 }
 
-main {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+
+
+.dltFriend {
+  background-color: #7C3AED;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 .friend-list {
@@ -132,7 +124,7 @@ h2 {
 
 button {
   border: none;
-  background-color: #007bff;
+  background-color: #7C3AED;
   color: #fff;
   padding: 8px 16px;
   border-radius: 8px;
