@@ -155,11 +155,14 @@ main {
       }
     },
     methods: {
-      giftIt(gift) {
-        // Add gift giving logic here
+      acceptRequest(request) {
+        this.$store.dispatch('acceptRequest', request)
+      },
+      markAsPending(request) {
+        this.$store.dispatch('markAsPending', request)
       },
       search() {
-        // Add search logic here
+        this.$store.dispatch('search', this.searchQuery)
       },
     },
     computed: {
