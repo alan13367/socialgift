@@ -2,9 +2,11 @@
   <header>
     <nav>
       <div class="menu">
+        <div class="logo">
         <RouterLink to="/">
-          <img src="logo.png" alt="Logo de la empresa" />
+          <img src="@/assets/imagenes/logo.png" alt="Logo" />
         </RouterLink>
+        </div>
         <div class="menu-links">
           <RouterLink to="/" class="menu-link">
             Aniversario
@@ -18,17 +20,16 @@
         </div>
       </div>
       <div class="actions">
-        <button>
-          
+        <button class="btn-signup">
+          Sign Up
         </button>
-        <button>
-          
+        <button class="btn-login">
+          Log In
         </button>
       </div>
     </nav>
   </header>
 </template>
-
 <style>
 
   nav {
@@ -38,29 +39,30 @@
     padding: 0 2%;
   }
 
-  img {
+  logo {
     height: 50px;
+    padding-right: 100px;
   }
 
-  .menu {
+  menu {
     display: flex;
-    height: 80%;
-    width: 80%;
+    height: 70%;
+    width: 70%;
   }
 
-  .menu-links {
+  menu-links {
     display: flex;
     justify-content: flex-start;
-    padding-left: 10px;
-    width: 80%;
-    margin-left: 5px;
+    padding-left: 10;
+    width: 50%;
+    margin-left: 5;
   }
 
-  .menu-link {
+  menu-link {
     font-family: 'Inter';
     font-style: semibold;
     font-weight: 100;
-    font-size: 18px;
+    font-size: 18;
     color: #000000;
     text-decoration: none;
     padding-bottom: 1%;
@@ -68,9 +70,33 @@
     margin: 0 1%;
   }
 
-  .menu-link:hover,
-  .menu-link:focus {
+  menu-link:hover,
+  menu-link:focus {
     border-bottom: 2px solid #000000;
+  }
+
+  actions {
+    display: flex;
+    align-items: center;
+    margin-left: 10;
+  }
+
+  btn-signup,
+  btn-login {
+    background-color: #006699;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12p 24p;
+    border: none;
+    border-radius: 4;
+    margin-left: 12;
+  }
+
+  btn-signup:hover,
+  btn-login:hover {
+    cursor: pointer;
+    opacity: 0.8;
   }
 
 </style>
