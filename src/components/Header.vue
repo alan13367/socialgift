@@ -45,7 +45,7 @@
 
 <style scoped>
   header {
-    border-bottom: 5px solid #000000;
+    border-bottom: 2px solid #000000;
     background-color: #ffffff;
     width: 100%;
     z-index: 1;
@@ -92,7 +92,8 @@
 
   .menu-link:hover,
   .menu-link:focus {
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #A33DA5;
+    color: #A33DA5;
   }
 
   .actions button {

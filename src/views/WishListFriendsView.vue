@@ -1,17 +1,6 @@
 <template>
 
  <body>
-    <header>
-      <div class="header-left">
-        <button>Button 1</button>
-        <button>Button 2</button>
-        <button>Button 3</button>
-        <button>Button 4</button>
-      </div>
-      <div class="header-right">
-        <button class="notification-icon">Bell Icon</button>
-      </div>
-    </header>
     <div class="main-container">
       <div class="title-container">
         <h1>Mis Listas</h1>
@@ -47,15 +36,3 @@
   </body>
 
 </template>
-  
-<script>
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-
-export default {
-  components: {
-    Header,
-    Footer,
-  },
-}
-</script>
