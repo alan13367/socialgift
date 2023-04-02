@@ -22,7 +22,8 @@
 <style scoped>
 
 main {
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .background {
@@ -48,6 +49,7 @@ main {
   height: 80%;
   width: 80%;
   margin-left: 10%;
+  margin-top: 5%;
 }
 
 .left-container {
@@ -116,7 +118,7 @@ main {
 }
 
 .right-container img {
-  max-width: 90%;
-  max-height: 90%;
+  width: 45%;
+  height: 45%;
 }
 </style>
