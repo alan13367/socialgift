@@ -43,7 +43,7 @@
   </header>
 </template>
 
-<style>
+<style scoped>
   header {
     border-bottom: 5px solid #000000;
     background-color: #ffffff;

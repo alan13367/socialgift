@@ -2,14 +2,12 @@
   <header>
     <nav>
       <div class="menu">
-        <div class="logo">
         <RouterLink to="/">
-          <img src="@/assets/imagenes/logo.png" alt="Logo" />
+          <img src="logo.png" alt="Logo de la empresa" />
         </RouterLink>
-        </div>
         <div class="menu-links">
           <RouterLink to="/" class="menu-link">
-            Aniversario
+            Aniversarios
           </RouterLink>
           <RouterLink to="/" class="menu-link">
             Cumpleaños
@@ -20,42 +18,43 @@
         </div>
       </div>
       <div class="actions">
-        <button class="btn-signup">
+        <button>
           Sign Up
         </button>
-        <button class="btn-login">
+        <button>
           Log In
         </button>
       </div>
     </nav>
   </header>
 </template>
-<style>
+
+<style scoped>
 
   nav {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 0 2%;
+    justify-content: space-between;
+    background-color: #ffffff
   }
-
-  logo {
+img {
     height: 50px;
-    padding-right: 100px;
+    padding-right: 1%;
   }
 
-  menu {
+  .menu {
     display: flex;
-    height: 70%;
-    width: 70%;
+    align-items: center;
+    height: 80%;
+    width: 80%;
   }
 
-  menu-links {
+  .menu-links {
     display: flex;
-    justify-content: flex-start;
-    padding-left: 10;
-    width: 50%;
-    margin-left: 5;
+    align-items: center;
+    justify-content: space-around;
+    width: 80%;
   }
 
   menu-link {
@@ -67,36 +66,31 @@
     text-decoration: none;
     padding-bottom: 1%;
     border-bottom: 2px solid transparent;
-    margin: 0 1%;
   }
 
-  menu-link:hover,
-  menu-link:focus {
-    border-bottom: 2px solid #000000;
-  }
+actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-left: 10px;
+  flex-wrap: wrap;
+  max-height: 80%;
+}
 
-  actions {
-    display: flex;
-    align-items: center;
-    margin-left: 10;
-  }
+button {
+  font-family: 'Inter';
+  font-weight: 100;
+  font-size: 10px;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  border: none;
+  margin: 0 0.5em;
+  background: #7C3AED;
+  color: white;
+  width: auto; /* Ajustamos el ancho del botón */
+  max-width: 100%;
+  flex-grow: 1; /* Crece si hay espacio disponible */
+}
 
-  btn-signup,
-  btn-login {
-    background-color: #006699;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12p 24p;
-    border: none;
-    border-radius: 4;
-    margin-left: 12;
-  }
-
-  btn-signup:hover,
-  btn-login:hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
 
 </style>
