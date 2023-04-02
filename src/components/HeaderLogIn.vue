@@ -6,28 +6,31 @@
           <img src="logo.png" alt="Logo de la empresa" />
         </RouterLink>
         <div class="menu-links">
-          <RouterLink to="/" class="menu-link">
-            Aniversarios
-          </RouterLink>
-          <RouterLink to="/" class="menu-link">
-            Cumpleaños
-          </RouterLink>
-          <RouterLink to="/" class="menu-link">
-            Otros
+          <RouterLink to="/" class="menu-link" >
+            Emular Login (No estara en el final)
           </RouterLink>
         </div>
       </div>
-      <div class="botones">
-        <button>
-          Sign Up
-        </button>
-        <button>
-          Log In
-        </button>
-      </div>
+      
     </nav>
   </header>
 </template>
+
+<script >
+  export default {
+    data() {
+      return {
+        
+      }
+    },
+    methods: {
+      changeHeader() {
+        
+      }
+    }
+  }
+  </script>
+
 
 <style scoped>
 header {
@@ -73,28 +76,6 @@ img {
     border-bottom: 2px solid transparent;
   }
 
-botones {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-left: 10px;
-  flex-wrap: wrap;
-  max-height: 80%;
-}
-
-button {
-  font-family: 'Inter';
-  font-weight: 100;
-  font-size: 10px;
-  text-decoration: none;
-  padding: 0.5em 1em;
-  border: none;
-  margin: 0 0.5em;
-  background: #A33DA5;
-  color: white;
-  width: auto; 
-  flex-grow: 1; /* Crece si hay espacio disponible */
-}
 
 
 </style>
