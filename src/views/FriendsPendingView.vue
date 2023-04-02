@@ -14,6 +14,7 @@
         <li v-for="request in pendingRequests" :key="request.id">
           <button @click="acceptRequest(request)">Aceptar</button>
           <span>{{ request.name }}</span>
+          <img :src="request.image" alt="Request image">
         </li>
       </ul>
     </div>
@@ -29,6 +30,51 @@
   </div> 
   </main>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        request: [
+          {
+            id: 1,
+            name: 'Friends1',
+            image: 'src/assets/Imagenes/gift.jpg',
+          },
+          {
+            id: 2,
+            name: 'Friends2',
+            image: 'src/assets/Imagenes/gift.jpg',
+          },
+          {
+            id: 3,
+            name: 'Friends3',
+            image: 'src/assets/Imagenes/gift.jpg',
+          },
+        ],
+        searchQuery: '',
+      }
+    },
+    methods: {
+      acceptRequest(request) {
+        this.$store.dispatch('acceptRequest', request)
+      },
+      markAsPending(request) {
+        this.$store.dispatch('markAsPending', request)
+      },
+      search() {
+        this.$store.dispatch('search', this.searchQuery)
+      },
+    },
+    computed: {
+      filteredGifts() {
+        return this.gifts.filter(gift => gift.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+      },
+    },
+  }
+  </script>
+
+
 <style scoped>
 main {
   width: 100%;
@@ -130,45 +176,4 @@ main {
   }
 </style>
 
- <script>
-  export default {
-    data() {
-      return {
-        request: [
-          {
-            id: 1,
-            name: 'Friends1',
-            image: '',
-          },
-          {
-            id: 2,
-            name: 'Friends2',
-            image: 'gift2.png',
-          },
-          {
-            id: 3,
-            name: 'Friends3',
-            image: 'gift3.png',
-          },
-        ],
-        searchQuery: '',
-      }
-    },
-    methods: {
-      acceptRequest(request) {
-        this.$store.dispatch('acceptRequest', request)
-      },
-      markAsPending(request) {
-        this.$store.dispatch('markAsPending', request)
-      },
-      search() {
-        this.$store.dispatch('search', this.searchQuery)
-      },
-    },
-    computed: {
-      filteredGifts() {
-        return this.gifts.filter(gift => gift.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      },
-    },
-  }
-  </script>
+ 
