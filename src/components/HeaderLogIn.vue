@@ -30,12 +30,6 @@
 </template>
 
 <style>
-  header {
-    border-bottom: 5px solid #000000;
-    background-color: #ffffff;
-    width: 100%;
-    z-index: 1;
-  }
 
   nav {
     display: flex;

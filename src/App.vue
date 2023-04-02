@@ -6,20 +6,14 @@ import MyHeader from './components/HeaderLogin.vue';
 </script>
 
 <template>
-  <div>
-    <header>
-      <MyHeader>
-      </MyHeader>
-    </header>
+  <body>
+      <MyHeader />
     <main>
       <RouterView>
       </RouterView>
     </main>
-    <footer>
-      <MyFooter>
-      </MyFooter>
-    </footer>
-  </div>
+      <MyFooter />
+  </body>
 </template>
 
 
