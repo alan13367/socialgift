@@ -103,7 +103,7 @@
   }
   </script>
   
-  <style>
+  <style scoped>
     .wishlist-list {
       display: flex;
       flex-direction: column;

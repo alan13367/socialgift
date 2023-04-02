@@ -22,7 +22,7 @@
     </div>
   </template>
   
-  <script scoped>
+  <script >
   export default {
     data() {
       return {
