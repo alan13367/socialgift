@@ -32,6 +32,7 @@ export default {
   
         <button type="submit" class="submit-btn">LogIn</button>
       </form>
+      <a href="#" class="forgot-password">Forgot your password?</a>
     </div>
   </template>
   
@@ -101,6 +102,15 @@ export default {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+.forgot-password {
+  display: block;
+  font-weight: bold;
+  text-decoration: underline;
+  margin-top: 1em;
+  cursor: pointer;
+  color: black;
 }
   
   @media screen and (min-width: 768px) {

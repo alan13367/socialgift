@@ -14,8 +14,8 @@
             <div class="gift-info">
               <h3>{{ gift.name }}</h3>
             </div>
-            <button class = "sharebtn" @click="giftIt(gift)"> <img src="src/assets/Imagenes/share.png" alt="" ></button>
-            <button class = "deletebtn" @click="giftIt(gift)"> <img src="src/assets/Imagenes/bin.png" alt="" ></button>
+            <button class = "sharebtn" @click="share(gift)"> <img src="src/assets/Imagenes/share.png" alt="" ></button>
+            <button class = "deletebtn" @click="deleteGift(gift)"> <img src="src/assets/Imagenes/bin.png" alt="" ></button>
           </div>
         </div>
       </div>
@@ -57,12 +57,15 @@
       }
     },
     methods: {
-      giftIt(gift) {
-        // Add gift giving logic here
+      share(gift) {
+        // Add gift sharing logic here
+      },
+      deleteGift(gift) {
+        // Add gift deleting logic here
       },
       search() {
         // Add search logic here
-      },
+      }
     },
     computed: {
       filteredGifts() {

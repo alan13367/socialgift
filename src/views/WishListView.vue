@@ -14,7 +14,7 @@
             <div class="gift-info">
               <h3>{{ gift.name }}</h3>
             </div>
-            <button @click="giftIt(gift)">Gift it</button>
+            <button class = "giftbutton" @click="giftIt(gift)">Gift it</button>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   .gift-list {
     display: flex;
     flex-direction: column;
@@ -119,9 +119,9 @@
   justify-content: space-between;
   width: 80%;
 }
-.gift button{
+.giftbutton{
   background-color: #7C3AED;
-  padding: 10px;
+  padding-right:10px;
 }
 
 .search-button{

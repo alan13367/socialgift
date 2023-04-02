@@ -21,9 +21,6 @@
           <RouterLink to="/FriendsPending" class="menu-link">
             Solicitudes amigos
           </RouterLink>
-          <RouterLink to="/WishListFriendsEdit" class="menu-link">
-            Regalar
-          </RouterLink>
           <RouterLink to="/UserProfile" class="menu-link">
             Perfil
           </RouterLink>

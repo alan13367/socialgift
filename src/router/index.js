@@ -7,7 +7,7 @@ import FriendsPending from '../views/FriendsPendingView.vue'
 import UserProfile from '../views/UserProfileView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ChatsView from '../views/ChatsView.vue'
-import MyWishlists from '../views/MyWishlists.vue'
+import MyWishlists from '../views/MyWishLists.vue'
 import WishlistView from '../views/WishlistView.vue'
 import MyWishlistView from '../views/MyWishlistView.vue'
 
