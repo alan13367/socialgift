@@ -30,7 +30,12 @@
 </template>
 
 <style scoped>
-
+header {
+    border-bottom: 2px solid #000000;
+    background-color: #ffffff;
+    width: 100%;
+    z-index: 1;
+  }
   nav {
     display: flex;
     align-items: center;
@@ -85,7 +90,7 @@ button {
   padding: 0.5em 1em;
   border: none;
   margin: 0 0.5em;
-  background: #7C3AED;
+  background: #A33DA5;
   color: white;
   width: auto; 
   flex-grow: 1; /* Crece si hay espacio disponible */
