@@ -20,17 +20,14 @@ import SignUpView from '../views/SignUpView.vue'
           <RouterLink to="/" class="menu-link">
             Otros
           </RouterLink>
-         
         </div>
       </div>
       <div class="actions">
         <button>
-          <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" 
-          />
+          
         </button>
         <button>
-          <img src="@/assets/Imagenes/logoff.png" alt="Cerrar Sesion"
-           />
+          
         </button>
       </div>
     </nav>
@@ -47,7 +44,6 @@ import SignUpView from '../views/SignUpView.vue'
 
   nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 0 2%;
@@ -59,17 +55,16 @@ import SignUpView from '../views/SignUpView.vue'
 
   .menu {
     display: flex;
-    align-items: center;
     height: 80%;
     width: 80%;
   }
 
   .menu-links {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
     padding-left: 10px;
     width: 80%;
+    margin-left: 5px;
   }
 
   .menu-link {
@@ -81,6 +76,7 @@ import SignUpView from '../views/SignUpView.vue'
     text-decoration: none;
     padding-bottom: 1%;
     border-bottom: 2px solid transparent;
+    margin: 0 1%;
   }
 
   .menu-link:hover,
@@ -88,17 +84,4 @@ import SignUpView from '../views/SignUpView.vue'
     border-bottom: 2px solid #000000;
   }
 
-  .actions button {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    padding: 0;
-    width: 48%;
-    height: 40;
-    
-  }
-
-  .actions button img {
-    height: 25px;
-  }
 </style>
