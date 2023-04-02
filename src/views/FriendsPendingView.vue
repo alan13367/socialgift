@@ -1,8 +1,5 @@
 <template>
   <main>
-  <div class="background">
-    <img src="@/assets/Imagenes/background.png" alt="Imagen de fondo">
-  </div>
   <div class="search-bar">
     <input type="text" v-model="searchQuery" placeholder="Search for gifts...">
     <button @click="search">Search</button>
@@ -84,21 +81,7 @@ main {
   justify-content: center;
   align-items: center;
 }
-
-  .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
-
-  .background img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
+ 
 
   .container {
     display: flex;
