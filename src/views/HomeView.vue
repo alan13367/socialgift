@@ -1,8 +1,6 @@
 <template>
   <main>
-    <div class="background">
-      <img src="@/assets/Imagenes/background.png" alt="Imagen de fondo">
-    </div>
+    
     <div class="container">
       <div class="left-container">
         <h2 class="title">La mejor manera de gestionar tus regalos</h2>

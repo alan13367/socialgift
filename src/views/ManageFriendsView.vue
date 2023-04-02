@@ -75,7 +75,9 @@ header {
   align-items: center;
   background-color: #f2f2f2;
   border-radius: 8px;
+  border-color: black;
   padding: 8px;
+  background-color: white;
 }
 
 input[type="text"] {
