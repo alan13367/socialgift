@@ -71,7 +71,7 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   .gift-list {
     display: flex;
     flex-direction: column;

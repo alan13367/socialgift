@@ -37,7 +37,7 @@ export default {
   
 
   
-  <style>
+  <style scoped>
 
 .imageneslogin {
     display: flex;
