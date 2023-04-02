@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main >
     <div class="search-bar">
       <input type="text" v-model="searchQuery" placeholder="Search for gifts...">
       <button @click="search">Search</button>
@@ -101,16 +101,16 @@ h3 {
   max-width: 100%;
 }
 
-  .search-bar {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 10%;
-    margin-bottom: 30px;
-  }
+.search-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 10%;
+  margin: 0 auto 30px auto; 
+}
 
   input[type="text"] {
     width: 70%;

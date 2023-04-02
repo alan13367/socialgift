@@ -125,8 +125,8 @@
   margin: 0 0.5em;
   background: #A33DA5;
   color: white;
-  width: 80px ; 
-  height: 30px;
+  width: auto ; 
+  height: auto;
   flex-grow: 1; /* Crece si hay espacio disponible */
 }
 
