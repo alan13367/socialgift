@@ -1,7 +1,7 @@
 <template>
     <div class="gift-list">
       <div class="title-search">
-        <h1>Wishlist</h1>
+        <h1>My Wishlist</h1>
       <div class="search-bar">
         <input type="text" v-model="searchQuery" placeholder="Search for gifts...">
         <button class="search-button" @click="search">Search</button>
@@ -14,7 +14,8 @@
             <div class="gift-info">
               <h3>{{ gift.name }}</h3>
             </div>
-            <button @click="giftIt(gift)">Gift it</button>
+            <button class = "sharebtn" @click="giftIt(gift)"> <img src="src/assets/Imagenes/share.png" alt="" ></button>
+            <button class = "deletebtn" @click="giftIt(gift)"> <img src="src/assets/Imagenes/bin.png" alt="" ></button>
           </div>
         </div>
       </div>
@@ -120,13 +121,32 @@
   width: 80%;
 }
 .gift button{
-  background-color: #7C3AED;
+  background-color: transparent;
   padding: 10px;
 }
 
 .search-button{
   background-color:#A33DA5;
 }
+
+
+.sharebtn :hover{
+  background-color: #E94AEC;
+  border: none;
+  border-radius: 10px;
+}
+
+.deletebtn :hover{
+  background-color: red;
+  border: none;
+  border-radius: 10px;
+}
+
+.gift button img {
+  width: 30px;
+  height: 30px;
+}
+
 
   
   </style>
