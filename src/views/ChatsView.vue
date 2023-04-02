@@ -19,7 +19,7 @@
     </div>
   </template>
   
-  <script>
+  <script scoped>
   import FriendList from '../components/FriendList.vue';
 
   export default {
@@ -90,7 +90,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .app-container {
   display: flex;
   height: 100vh;

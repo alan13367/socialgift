@@ -46,7 +46,7 @@ export default {
     </div>
   </template>
   
-  <style>
+  <style scoped>
     .login-container {
       display: flex;
       justify-content: center;

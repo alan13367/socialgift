@@ -31,6 +31,15 @@ main {
   align-items: center;
 }
 
+.user-info button {
+  background-color: #A33DA5;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 40px;
+  cursor: pointer;
+  weight: 323px;
+}
+
 .user-image{
   display: flex;
   height: 40px;
@@ -58,6 +67,11 @@ main {
 
 .wishlistbtn {
   background-color: #A33DA5;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 40px;
+  cursor: pointer;
+  weight: 323px;
 }
 
 .wishlist-buttons {
