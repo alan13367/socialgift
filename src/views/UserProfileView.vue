@@ -3,26 +3,23 @@
   <div>
     <h2>Perfil</h2>
     <div class="user-info">
-      <div class="user-details">
         <img src="@/assets/Imagenes/userimage.png" alt="Foto de perfil" class="user-image" />
         <h3 class="user-name">Nombre Usuario Completo</h3>
-      </div>
-      <div class="user-actions">
         <button>Send Friend request</button>
-        <div class="wishlist">
+    </div>
+    <div class="wishlist">
           <h4>WishList</h4>
           <div class="wishlist-buttons">
-            <button v-for="item in wishlistItems" :key="item.id">{{ item.name }}</button>
+            <button class="wishlistbtn" v-for="item in wishlistItems" :key="item.id">{{ item.name }}</button>
           </div>
-        </div>
-      </div>
     </div>
   </div>
   </main>
 </template>
 
-<style>
+<style scoped>
 main {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -34,18 +31,11 @@ main {
   align-items: center;
 }
 
-.user-details {
+.user-image{
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  height: 50%;
-  width: 90%;
-  max-height: 50vh;
-}
-
-.user-image {
-  height: 90%;
+  height: 40px;
+  max-width: 50%; 
+  object-fit: cover; 
   margin-right: 1rem;
 }
 
@@ -66,6 +56,10 @@ main {
   flex-direction: column;
 }
 
+.wishlistbtn {
+  background-color: #A33DA5;
+}
+
 .wishlist-buttons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -73,7 +67,23 @@ main {
 }
 </style>
 
-
-
-
-  
+<script>
+export default {
+  name: "Profile",
+  data() {
+    return {
+      wishlistItems: [
+        { id: 1, name: "WishList 1" },
+        { id: 2, name: "WishList 2" },
+        { id: 3, name: "WishList 3" },
+        { id: 4, name: "WishList 4" },
+        { id: 5, name: "WishList 5" },
+        { id: 6, name: "WishList 6" },
+        { id: 7, name: "WishList 7" },
+        { id: 8, name: "WishList 8" },
+        { id: 9, name: "WishList 9" }
+      ]
+    };
+  }
+};
+</script>

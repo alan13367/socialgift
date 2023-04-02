@@ -54,7 +54,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .manage-friends {
   display: flex;
   flex-direction: column;
