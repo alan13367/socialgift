@@ -1,6 +1,6 @@
 <template>
-  <div class="footer-container">
-    <footer>
+  <div >
+    <footer class="footer-container">
       <div class="logo">
         <img src="logo.png" alt="Logo de la empresa">
       </div>
@@ -18,7 +18,7 @@
 
 <style scoped>
   .footer-container {
-    weight: 100%;
+    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import NavBar from './components/NavBar.vue';
 import AuthButtons from './components/AuthButtons.vue';
 import MyFooter from './components/Footer.vue';
 import MyHeader from './components/HeaderLogin.vue';

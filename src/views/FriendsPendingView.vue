@@ -1,5 +1,4 @@
 <template>
-  <Header />
   <body>
   <div>
     <h2>Solicitudes</h2>
@@ -29,18 +28,16 @@
     </div>
   </div>
   </body>
-  <Footer />
 </template>
 
 
 <script>
 import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
+
 
 export default {
   components: {
     Header,
-    Footer,
   },
 }
 </script>
