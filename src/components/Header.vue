@@ -36,22 +36,32 @@
            />
         </button>
       </div>
-      <router-link to="/login">
+      <div class="divbuttons" >
+        <router-link to="/login">
           <button class="authbutton">Log In</button>
         </router-link>
         <router-link to="/signup">
           <button class="authbutton">Sign Up</button>
         </router-link>
+      </div>
     </nav>
   </header>
 </template>
 
 <style scoped>
+
+.divbuttons{
+  display: flex;
+  flex-direction: row;
+  padding: 2px;
+}
+
   header {
     border-bottom: 2px solid #000000;
     background-color: #ffffff;
     width: 100%;
     z-index: 1;
+    overflow-x: hidden;
   }
 
   nav {
@@ -59,7 +69,6 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 2%;
   }
 
   img {
@@ -70,8 +79,8 @@
   .menu {
     display: flex;
     align-items: center;
-    height: 80%;
-    width: 80%;
+    height: 100%;
+    width: 100%;
   }
 
   .menu-links {
@@ -99,14 +108,17 @@
     color: #A33DA5;
   }
 
+  .actions{
+    display: flex;
+    flex-direction: row;
+  }
   .actions button {
     border: none;
     background-color: transparent;
     cursor: pointer;
     padding: 0;
-    width: 48%;
+    width: 50%;
     height: 40;
-    
   }
 
   .actions button img {
@@ -122,11 +134,10 @@
   text-decoration: none;
   padding: 0.5em 1em;
   border: none;
-  margin: 0 0.5em;
   background: #A33DA5;
   color: white;
-  width: auto ; 
-  height: auto;
+  width: 80px ; 
+  height: 40px;
   flex-grow: 1; /* Crece si hay espacio disponible */
 }
 
