@@ -17,7 +17,7 @@
           </RouterLink>
         </div>
       </div>
-      <div class="actions">
+      <div class="botones">
         <button>
           Sign Up
         </button>
@@ -68,7 +68,7 @@ img {
     border-bottom: 2px solid transparent;
   }
 
-actions {
+botones {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -87,8 +87,7 @@ button {
   margin: 0 0.5em;
   background: #7C3AED;
   color: white;
-  width: auto; /* Ajustamos el ancho del botón */
-  max-width: 100%;
+  width: auto; 
   flex-grow: 1; /* Crece si hay espacio disponible */
 }
 
