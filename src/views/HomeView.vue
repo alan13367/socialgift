@@ -1,6 +1,5 @@
 <template>
   <main>
-    
     <div class="container">
       <div class="left-container">
         <h2 class="title">La mejor manera de gestionar tus regalos</h2>

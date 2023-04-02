@@ -4,7 +4,7 @@
       <h1>Amigos</h1>
       <div class="search-bar">
         <input type="text" placeholder="Buscar">
-        <button><img src="lupa.png" alt="Buscar"></button>
+        <button>Search</button>
       </div>
     </header>
     <main>
@@ -74,7 +74,7 @@ header {
   display: flex;
   align-items: center;
   background-color: #f2f2f2;
-  border-radius: 8px;
+  border-radius: 15px;
   border-color: black;
   padding: 8px;
   background-color: white;

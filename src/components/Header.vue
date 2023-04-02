@@ -36,6 +36,12 @@
            />
         </button>
       </div>
+      <router-link to="/login">
+          <button class="authbutton">Log In</button>
+        </router-link>
+        <router-link to="/signup">
+          <button class="authbutton">Sign Up</button>
+        </router-link>
     </nav>
   </header>
 </template>
@@ -106,4 +112,22 @@
   .actions button img {
     height: 25px;
   }
+
+
+
+.authbutton {
+  font-family: 'Inter';
+  font-weight: 100;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  border: none;
+  margin: 0 0.5em;
+  background: #A33DA5;
+  color: white;
+  width: 80px ; 
+  height: 30px;
+  flex-grow: 1; /* Crece si hay espacio disponible */
+}
+
 </style>
