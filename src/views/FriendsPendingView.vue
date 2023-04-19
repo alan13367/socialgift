@@ -1,5 +1,4 @@
 <template>
-  <main >
     <div class="search-bar">
       <input type="text" v-model="searchQuery" placeholder="Search for gifts...">
       <button @click="search">Search</button>
@@ -21,7 +20,6 @@
         </div>
       </div>
     </div> 
-  </main>
 </template>
 
 <script>

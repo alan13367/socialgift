@@ -35,6 +35,7 @@ body {
     grid-template-columns: 1fr;
     grid-template-areas: "main" "footer";
     grid-template-rows: 1fr 80px;
+    
 }
 
 main {

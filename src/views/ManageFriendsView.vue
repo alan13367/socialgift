@@ -1,5 +1,4 @@
 <template>
-<main>
   <div class="manage-friends">
       <h1>Amigos</h1>
       <div class="search-bar">
@@ -14,15 +13,10 @@
           <h3>{{ friend.name }}</h3>
         </div>
       </div>
-    
-    
-  </main>
-    
-  
 </template>
+
+
 <script>
-
-
 export default {
   data() {
     return {

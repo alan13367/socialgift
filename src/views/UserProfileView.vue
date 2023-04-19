@@ -1,5 +1,4 @@
 <template>
-  <main>
   <div>
     <h2>Perfil</h2>
     <div class="user-info">
@@ -14,7 +13,6 @@
           </div>
     </div>
   </div>
-  </main>
 </template>
 
 <style scoped>

@@ -1,5 +1,4 @@
 <template>
-  <main>
     <div class="container">
       <div class="left-container">
         <h2 class="title">La mejor manera de gestionar tus regalos</h2>
@@ -13,30 +12,10 @@
         <img src="@/assets/Imagenes/mobile.png" alt="no image">
       </div>
     </div>
-  </main>
 </template>
 
 <style scoped>
 
-main {
-  width: 100%;
-  height: 100%;
-}
-
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-.background img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
 
 .container {
   display: flex;
