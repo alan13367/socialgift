@@ -1,12 +1,18 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import AuthButtons from './components/AuthButtons.vue';
+import { RouterLink, RouterView } from 'vue-router';
 import MyFooter from './components/Footer.vue';
 import MyHeader from './components/Header.vue';
+
+
+
 </script>
 
 <template>
-    <MyHeader />
+     <div>
+    <header>
+      <MyHeader />
+    </header>
+  </div>
   <body>
     <main>
       <div class="background">

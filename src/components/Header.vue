@@ -1,10 +1,22 @@
+<script>
+
+
+
+
+
+
+</script>
+
+
 <template>
   <header>
     <nav>
       <div class="menu">
+        <div class="imglogo">
         <RouterLink to="/">
           <img src="logo.png" alt="Logo de la empresa" />
         </RouterLink>
+      </div>
         <div class="menu-links">
           <RouterLink to="/mywishlists" class="menu-link">
             Mis Listas
@@ -71,9 +83,11 @@
     width: 100%;
   }
 
-  img {
+  imglogo {
+    display: flex;
     height: 50px;
-    padding-right: 100px;
+    padding-right: 50px;
+    position: relative;
   }
 
   .menu {

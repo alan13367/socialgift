@@ -1,19 +1,38 @@
 <script>
-import header from "@/components/Header.vue";
 export default {
   data() {
     return {
       email: '',
-      password: '',
+      password: ''
     };
   },
   methods: {
-    submitForm() {
-      // Submit form logic here
-    },
-  },
+    async submitForm(event) {
+      event.preventDefault();
+      const response = await fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: this.email,
+          password: this.password
+        })
+      });
+      if (response.status === 200) {
+        this.$router.push('/mywishlists');
+      } else if (response.status === 400) {
+        console.error('Error calling API');
+      } else if (response.status === 401) {
+        console.error('Invalid email or password');
+      }
+    }
+  }
 };
 </script>
+
+
 
 
 <template>
@@ -23,7 +42,7 @@ export default {
         <img src="@/assets/Imagenes/googlelogin.png" alt="">
         <h2>Or</h2>
       </div>
-      <form class="login-form" @submit.prevent="submitForm">
+      <form class="login-form" @submit="submitForm">
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="email" required>
   

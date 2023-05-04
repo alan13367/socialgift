@@ -1,107 +1,57 @@
 <template>
-    <div class="wishlist-list">
-      <div class="title-search">
-        <h1>My Wishlists</h1>
-        <div class="search-bar">
-          <input type="text" v-model="searchQuery" placeholder="Search for wishlists...">
-          <button class="search-button" @click="search">Search</button>
-        </div>
+  <div class="wishlist-list">
+    <div class="title-search">
+      <h1>My Wishlists</h1>
+      <div class="search-bar">
+        <input type="text" v-model="searchQuery" placeholder="Search for wishlists...">
+        <button class="search-button" @click="search">Search</button>
       </div>
-      <div class="wishlists">
-        <div class="wishlist-row" v-for="(chunk, index) in chunkedWishlists" :key="index">
-          <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container">
-            <router-link :to="'/mywishlist'" class="wishlist">
-              <h3>{{ wishlist.name }}</h3>
-            </router-link>
-          </div>
+    </div>
+    <div class="wishlists">
+      <div class="wishlist-row" v-for="(chunk, index) in chunkedWishlists" :key="index">
+        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container">
+          <router-link :to="'/mywishlist'" class="wishlist">
+            <h3>{{ wishlist.name }}</h3>
+          </router-link>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        wishlists: [],
-        searchQuery: '',
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      searchQuery: '',
+      wishlists: [],
+      chunkedWishlists: []
+    }
+  },
+  created() {
+    this.getWishlists()
+  },
+  methods: {
+    async getWishlists() {
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/138'
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM4LCJlbWFpbCI6Im1hcnRpbi5zb2xmZXJpbm9Ac3R1ZGVudHMuc2FsbGUudXJsLmVkdSIsImlhdCI6MTY4MzEzODgxOX0.3u7QDQ_g5qdUrxBeVQpNx52-aIi0wp3B70LPeC0mCRE'
       }
+      const response = await fetch(url, { headers })
+      const data = await response.json()
+      this.wishlists = data.wishlists
+      this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
     },
-    methods: {
-      search() {
-        // Add search logic here
-      },
-      chunkArray(array, chunkSize) {
-        let chunks = []
-        for (let i = 0; i < array.length; i += chunkSize) {
-          chunks.push(array.slice(i, i + chunkSize))
-        }
-        return chunks
-      },
+    search() {
+      // Lógica para buscar en la lista de deseos
     },
-    computed: {
-      filteredWishlists() {
-        return this.wishlists.filter(wishlist => wishlist.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      },
-      chunkedWishlists() {
-        return this.chunkArray(this.filteredWishlists, 3)
-      },
-    },
-    created() {
-      // Replace this with code to fetch wishlists from your backend
-      this.wishlists = [
-        {
-          id: 1,
-          name: 'Wishlist 1',
-        },
-        {
-          id: 2,
-          name: 'Wishlist 2',
-        },
-        {
-          id: 3,
-          name: 'Wishlist 3',
-        },
-        {
-          id: 4,
-          name: 'Wishlist 4',
-        },
-        {
-          id: 5,
-          name: 'Wishlist 5',
-        },
-        {
-          id: 6,
-          name: 'Wishlist 6',
-        },
-        {
-          id: 7,
-          name: 'Wishlist 7',
-        },
-        {
-          id: 8,
-          name: 'Wishlist 8',
-        },
-        {
-          id: 9,
-          name: 'Wishlist 9',
-        },
-        {
-          id: 10,
-          name: 'Wishlist 10',
-        },
-        {
-          id: 11,
-          name: 'Wishlist 11',
-        },
-        {
-          id: 12,
-          name: 'Wishlist 12',
-        },
-      ]
-    },
+    chunkWishlists(wishlists, size) {
+      // Función para dividir la lista de deseos en grupos de tamaño especificado
+    }
   }
-  </script>
+}
+</script>
   
   <style scoped>
     .wishlist-list {
