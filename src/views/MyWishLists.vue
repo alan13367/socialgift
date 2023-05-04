@@ -8,8 +8,8 @@
       </div>
     </div>
     <div class="wishlists">
-      <div class="wishlist-row" v-for="(chunk, index) in chunkedWishlists" :key="index">
-        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container">
+      <div class="wishlist-row" v-for="(row, rowIndex) in chunkedWishlists" :key="rowIndex">
+        <div v-for="(wishlist, colIndex) in row" :key="wishlist.id" class="wishlist-container">
           <router-link :to="'/mywishlist'" class="wishlist">
             <h3>{{ wishlist.name }}</h3>
           </router-link>
@@ -47,11 +47,17 @@ export default {
       // Lógica para buscar en la lista de deseos
     },
     chunkWishlists(wishlists, size) {
-      // Función para dividir la lista de deseos en grupos de tamaño especificado
+      const rows = []
+      let index = 0
+      while (index < wishlists.length) {
+        rows.push(wishlists.slice(index, index + size))
+        index += size
+      }
+      return rows
     }
   }
 }
-</script>
+</script> 
   
   <style scoped>
     .wishlist-list {
