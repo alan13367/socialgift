@@ -1,19 +1,55 @@
 <script>
-import header from "@/components/Header.vue";
 export default {
   data() {
     return {
       email: '',
       password: '',
+      isLoggedIn: false,
     };
   },
   methods: {
-    submitForm() {
-      // Submit form logic here
+    async submitForm(event) {
+      event.preventDefault();
+      const response = await fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: this.email,
+          password: this.password
+        })
+      });
+      if (response.status === 200) {
+        response.json().then(data => {
+          localStorage.setItem('userData', JSON.stringify(data.token));
+          this.isLoggedIn = true; 
+          localStorage.setItem('loggedIn', this.isLoggedIn); 
+          console.error('isLoggedIn:', this.isLoggedIn);
+          this.$router.push('/mywishlists');
+        });
+      } else if (response.status === 400) {
+        console.error('Error  API');
+      } else if (response.status === 401) {
+        console.error('Mail o password incorrecto');
+      }
     },
+    logout() {
+      this.isLoggedIn = false;
+      localStorage.setItem('loggedIn', this.isLoggedIn); 
+      console.log('isLoggedIn:', this.isLoggedIn);
+      this.$router.push('/');
+    },
+  },
+  mounted() {
+    this.isLoggedIn = localStorage.getItem('loggedIn') === 'true'; 
+    console.log('isLoggedIn:', this.isLoggedIn);
   },
 };
 </script>
+
+
 
 
 <template>
@@ -23,7 +59,7 @@ export default {
         <img src="@/assets/Imagenes/googlelogin.png" alt="">
         <h2>Or</h2>
       </div>
-      <form class="login-form" @submit.prevent="submitForm">
+      <form class="login-form" @submit="submitForm">
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="email" required>
   

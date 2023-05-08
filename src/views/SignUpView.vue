@@ -11,11 +11,48 @@ export default {
   },
   methods: {
     submitForm() {
-      // Submit form logic here
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/users';
+      const data = {
+        name: this.name,
+        last_name: this.lastName,
+        email: this.email,
+        password: this.password,
+        image: this.imageUrl
+      };
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (response.status === 201) {
+          this.$router.push('/mywishlists');
+          response.json().then(data => {
+            localStorage.setItem('userData', JSON.stringify(data));
+            localStorage.setItem('loggedIn', true);
+          });
+        } else if (response.status === 400) {
+          console.error('Error de la web: ' + response.statusText);
+        } else if (response.status === 406) {
+          console.error('Faltan parámetros en la solicitud');
+        } else if (response.status === 409) {
+          console.error('El correo electrónico ya existe');
+        } else if (response.status === 500) {
+          console.error();('Usuario no creado');
+        } else if (response.status === 501) {
+          console.error('Error de la web: ' + response.statusText);
+        }
+      })
+      .catch(error => {
+        console.log('Error en la solicitud: ' + error);
+      });
     },
   },
 };
 </script>
+
 
 <template>
     <div class="login-container">

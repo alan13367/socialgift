@@ -5,18 +5,7 @@
     </div>
   </template>
   
-  <script>
-  export default {
-    methods: {
-      login() {
-        // code to handle login button click
-      },
-      signup() {
-        // code to handle signup button click
-      },
-    },
-  };
-  </script>
+ 
   
   <style>
   .AuthButtons {

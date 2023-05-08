@@ -1,113 +1,141 @@
 <template>
-    <div class="wishlist-list">
-      <div class="title-search">
-        <h1>My Wishlists</h1>
-        <div class="search-bar">
-          <input type="text" v-model="searchQuery" placeholder="Search for wishlists...">
-          <button class="search-button" @click="search">Search</button>
-        </div>
+  <div class="wishlist-list">
+    <div class="title-search">
+      <h1>My Wishlists</h1>
+      <div class="search-bar">
+        <input type="text" v-model="searchQuery" placeholder="Search for wishlists...">
+        <button class="search-button" @click="search">Search</button>
       </div>
-      <div class="wishlists">
-        <div class="wishlist-row" v-for="(chunk, index) in chunkedWishlists" :key="index">
-          <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container">
-            <router-link :to="'/mywishlist'" class="wishlist">
-              <h3>{{ wishlist.name }}</h3>
-            </router-link>
-          </div>
+      <div class="create-wishlist">
+        <router-link :to="'/createwishlist'">
+          <button class="create-button">Create Wishlist</button>
+        </router-link>
+        <div class="create-wishlist">
+  <router-link :to="'/createwishlist'">
+    <button class="create-button">Create Wishlist</button>
+  </router-link>
+  <div v-if="showCreateForm">
+    <h2>Create Wishlist</h2>
+    <form @submit="submitCreateForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" v-model="newWishlist.name" required>
+      <label for="description">Description:</label>
+      <input type="text" id="description" v-model="newWishlist.description" required>
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" v-model="newWishlist.end_date" required>
+      <button type="submit">Create</button>
+    </form>
+  </div>
+</div>
+      </div>
+    </div>
+    <div class="wishlists">
+      <div class="wishlist-row" v-for="(row, rowIndex) in chunkedWishlists" :key="rowIndex">
+        <div v-for="(wishlist, colIndex) in row" :key="wishlist.id" class="wishlist-container">
+          <router-link :to="'/mywishlist'" class="wishlist">
+            <h3>{{ wishlist.name }}</h3>
+          </router-link>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        wishlists: [],
-        searchQuery: '',
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      searchQuery: '',
+      wishlists: [],
+      chunkedWishlists: [],
+    showCreateForm: false, 
+    newWishlist: { 
+      name: '',
+      description: '',
+      end_date: ''
+    }
+  }
+},
+    
+  created() {
+    this.getWishlists()
+  },
+  methods: {
+
+    async submitCreateForm(event) {
+    event.preventDefault();
+
+    const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists';
+    const headers = {
+      'accept': 'application/json',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM',
+      'Content-Type': 'application/json'
+    };
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(this.newWishlist)
+    });
+
+    if (response.ok) {
+      console.log('Wishlist created successfully');
+      this.newWishlist.name = '';
+      this.newWishlist.description = '';
+      this.newWishlist.end_date = '';
+      this.showCreateForm = false;
+    } else {
+      console.error('Error creating wishlist:', response.status);
+    }
+  },
+    async getWishlists() {
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/22'
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM'
+      }
+      const response = await fetch(url, { headers })
+      if (response.ok) {
+        const data = await response.json()
+        if (data && data.wishlists) {
+          this.wishlists = data.wishlists
+          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
+          console.error(this.wishlists)
+        } else {
+          console.error('Error: Wishlists data is missing')
+          console.error(response)
+        }
+      } else {
+        console.error('Error calling API:', response.status)
       }
     },
-    methods: {
-      search() {
-        // Add search logic here
-      },
-      chunkArray(array, chunkSize) {
-        let chunks = []
-        for (let i = 0; i < array.length; i += chunkSize) {
-          chunks.push(array.slice(i, i + chunkSize))
-        }
-        return chunks
-      },
+    search() {
+      // Lógica para buscar en la lista de deseos
     },
-    computed: {
-      filteredWishlists() {
-        return this.wishlists.filter(wishlist => wishlist.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      },
-      chunkedWishlists() {
-        return this.chunkArray(this.filteredWishlists, 3)
-      },
-    },
-    created() {
-      // Replace this with code to fetch wishlists from your backend
-      this.wishlists = [
-        {
-          id: 1,
-          name: 'Wishlist 1',
-        },
-        {
-          id: 2,
-          name: 'Wishlist 2',
-        },
-        {
-          id: 3,
-          name: 'Wishlist 3',
-        },
-        {
-          id: 4,
-          name: 'Wishlist 4',
-        },
-        {
-          id: 5,
-          name: 'Wishlist 5',
-        },
-        {
-          id: 6,
-          name: 'Wishlist 6',
-        },
-        {
-          id: 7,
-          name: 'Wishlist 7',
-        },
-        {
-          id: 8,
-          name: 'Wishlist 8',
-        },
-        {
-          id: 9,
-          name: 'Wishlist 9',
-        },
-        {
-          id: 10,
-          name: 'Wishlist 10',
-        },
-        {
-          id: 11,
-          name: 'Wishlist 11',
-        },
-        {
-          id: 12,
-          name: 'Wishlist 12',
-        },
-      ]
-    },
+    chunkWishlists(wishlists, size) {
+      const rows = []
+      let index = 0
+      while (index < wishlists.length) {
+        rows.push(wishlists.slice(index, index + size))
+        index += size
+      }
+      return rows
+    }
   }
-  </script>
+}
+</script>
+
   
   <style scoped>
     .wishlist-list {
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+    .create-wishlist {
+      display: flex;
+      justify-content: flex-end;
+      width: 80%;
     }
     .search-bar {
       display: flex;
