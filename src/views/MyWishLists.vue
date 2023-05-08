@@ -89,16 +89,18 @@ export default {
     }
   },
     async getWishlists() {
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/22'
+      const url = ' https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists'
       const headers = {
         'accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM',
+        'Content-Type': 'application/json'
       }
       const response = await fetch(url, { headers })
       if (response.ok) {
-        const data = await response.json()
-        if (data && data.wishlists) {
-          this.wishlists = data.wishlists
+        const json_response = await response.json()
+        console.log(json_response)
+        if (json_response) {
+          this.wishlists = json_response
           this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
           console.error(this.wishlists)
         } else {

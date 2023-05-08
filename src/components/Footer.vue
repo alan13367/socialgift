@@ -4,14 +4,14 @@
       <div class="logo">
         <img src="logo.png" alt="Logo de la empresa">
       </div>
-      <div class="enlaces">
+      <nav class="enlaces">
         <ul>
           <li><a href="#">Acerca de</a></li>
           <li><a href="#">Ayuda</a></li>
           <li><a href="#">Contacto</a></li>
           <li>&copy; 2023 SocialGift. Todos los derechos reservados</li>
         </ul>
-      </div>
+      </nav>
     </footer>
   </div>
 </template>
@@ -26,6 +26,12 @@
     background-color: #000000;
     color: #FFFFFF;
     padding: 32px 112px;
+    
+  }
+
+  footer{
+    background-color: #7E57C2;
+    grid-area: footer;
   }
 
   .logo {

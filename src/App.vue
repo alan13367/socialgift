@@ -1,30 +1,22 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router'
+import AuthButtons from './components/AuthButtons.vue';
 import MyFooter from './components/Footer.vue';
 import MyHeader from './components/Header.vue';
-
-
-
 </script>
 
 <template>
-     <div>
-    <header>
-      <MyHeader />
-    </header>
-  </div>
-  <body>
+    <MyHeader />
     <main>
       <div class="background">
       <img src="@/assets/Imagenes/background.png" alt="Imagen de fondo">
     </div>
-      <RouterView>
-      </RouterView>
+      <RouterView />
     </main>
     <footer>
       <MyFooter />
     </footer>
-</body>
+
   
 </template>
 

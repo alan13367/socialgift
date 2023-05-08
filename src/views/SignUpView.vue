@@ -28,11 +28,11 @@ export default {
       })
       .then(response => {
         if (response.status === 201) {
-          this.$router.push('/mywishlists');
           response.json().then(data => {
             localStorage.setItem('userData', JSON.stringify(data));
             localStorage.setItem('loggedIn', true);
             console.error(data.id);
+            this.$router.push('/mywishlists');
           });
         } else if (response.status === 400) {
           console.error('Error de la web: ' + response.statusText);
