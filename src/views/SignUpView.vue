@@ -32,6 +32,7 @@ export default {
           response.json().then(data => {
             localStorage.setItem('userData', JSON.stringify(data));
             localStorage.setItem('loggedIn', true);
+            console.error(data.id);
           });
         } else if (response.status === 400) {
           console.error('Error de la web: ' + response.statusText);

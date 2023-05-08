@@ -110,7 +110,7 @@ export default {
       }
     },
     search() {
-      // Lógica para buscar en la lista de deseos
+      
     },
     chunkWishlists(wishlists, size) {
       const rows = []
