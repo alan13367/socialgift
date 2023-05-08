@@ -11,8 +11,7 @@ import MyHeader from './components/Header.vue';
       <div class="background">
       <img src="@/assets/Imagenes/background.png" alt="Imagen de fondo">
     </div>
-      <RouterView>
-      </RouterView>
+      <RouterView />
     </main>
     <footer>
       <MyFooter />
