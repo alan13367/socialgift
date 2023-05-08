@@ -5,9 +5,7 @@
     </div>
   </template>
   
-  <script>
  
-</script>
   
   <style>
   .AuthButtons {
