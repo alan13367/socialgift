@@ -1,64 +1,71 @@
+import routerlink from 'vue-router';
+
 <script>
-
-
-
-
-
-
+export default {
+  data() {
+    return {
+      isLoggedIn: false,
+    };
+  },
+  methods: {
+    logout() {
+      this.isLoggedIn = false;
+      console.error('isLoggedIn:', this.isLoggedIn);
+      this.$router.push('/');
+    },
+  },
+};
 </script>
 
-
 <template>
-  <header>
-    <nav>
-      <div class="menu">
-        <div class="imglogo">
-        <RouterLink to="/">
+  <nav>
+    <div class="menu">
+      <div class="imglogo">
+        <router-link to="/">
           <img src="logo.png" alt="Logo de la empresa" />
-        </RouterLink>
-      </div>
-        <div class="menu-links">
-          <RouterLink to="/mywishlists" class="menu-link">
-            Mis Listas
-          </RouterLink>
-          <RouterLink to="/ManageFriends" class="menu-link">
-            Amigos
-          </RouterLink>
-          <RouterLink to="/WishListFriends" class="menu-link">
-            Listas Amigos
-          </RouterLink>
-          <RouterLink to="/Chats" class="menu-link">
-            Chats
-          </RouterLink>
-          <RouterLink to="/FriendsPending" class="menu-link">
-            Solicitudes amigos
-          </RouterLink>
-          <RouterLink to="/UserProfile" class="menu-link">
-            Perfil
-          </RouterLink>
-        </div>
-      </div>
-      <div class="actions">
-        <button>
-          <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" 
-          />
-        </button>
-        <button>
-          <img src="@/assets/Imagenes/logoff.png" alt="Cerrar Sesion"
-           />
-        </button>
-      </div>
-      <div class="divbuttons" >
-        <router-link to="/login">
-          <button class="authbutton">Log In</button>
-        </router-link>
-        <router-link to="/signup">
-          <button class="authbutton">Sign Up</button>
         </router-link>
       </div>
-    </nav>
-  </header>
+      <div class="menu-links" v-if="isLoggedIn">
+        <router-link to="/mywishlists" class="menu-link">
+          Mis Listas
+        </router-link>
+        <router-link to="/ManageFriends" class="menu-link">
+          Amigos
+        </router-link>
+        <router-link to="/WishListFriends" class="menu-link">
+          Listas Amigos
+        </router-link>
+        <router-link to="/Chats" class="menu-link">
+          Chats
+        </router-link>
+        <router-link to="/FriendsPending" class="menu-link">
+          Solicitudes amigos
+        </router-link>
+        <router-link to="/UserProfile" class="menu-link">
+          Perfil
+        </router-link>
+      </div>
+    </div>
+    <div class="actions" v-if="!isLoggedIn">
+      <button>
+        <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" />
+      </button>
+      <button @click="logout">
+        <img src="@/assets/Imagenes/logoff.png" alt="Cerrar Sesion" />
+      </button>
+    </div>
+    <div class="divbuttons" v-if="!isLoggedIn">
+      <router-link to="/login">
+        <button class="authbutton">Log In</button>
+      </router-link>
+      <router-link to="/signup">
+        <button class="authbutton">Sign Up</button>
+      </router-link>
+    </div>
+  </nav>
 </template>
+
+
 
 <style scoped>
 

@@ -29,16 +29,20 @@ export default {
       .then(response => {
         if (response.status === 201) {
           this.$router.push('/mywishlists');
+          response.json().then(data => {
+            localStorage.setItem('userData', JSON.stringify(data));
+            localStorage.setItem('loggedIn', true);
+          });
         } else if (response.status === 400) {
-          console.log('Error de la web: ' + response.statusText);
+          console.error('Error de la web: ' + response.statusText);
         } else if (response.status === 406) {
-          console.log('Faltan parámetros en la solicitud');
+          console.error('Faltan parámetros en la solicitud');
         } else if (response.status === 409) {
-          console.log('El correo electrónico ya existe');
+          console.error('El correo electrónico ya existe');
         } else if (response.status === 500) {
-          console.log('Usuario no creado');
+          console.error();('Usuario no creado');
         } else if (response.status === 501) {
-          console.log('Error de la web: ' + response.statusText);
+          console.error('Error de la web: ' + response.statusText);
         }
       })
       .catch(error => {
@@ -48,6 +52,7 @@ export default {
   },
 };
 </script>
+
 
 <template>
     <div class="login-container">

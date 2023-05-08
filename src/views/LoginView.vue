@@ -3,7 +3,8 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      isLoggedIn: false,
     };
   },
   methods: {
@@ -21,14 +22,30 @@ export default {
         })
       });
       if (response.status === 200) {
-        this.$router.push('/mywishlists');
+        response.json().then(data => {
+          localStorage.setItem('userData', JSON.stringify(data.token));
+          this.isLoggedIn = true; 
+          localStorage.setItem('loggedIn', this.isLoggedIn); 
+          console.error('isLoggedIn:', this.isLoggedIn);
+          this.$router.push('/mywishlists');
+        });
       } else if (response.status === 400) {
-        console.error('Error calling API');
+        console.error('Error  API');
       } else if (response.status === 401) {
-        console.error('Invalid email or password');
+        console.error('Mail o password incorrecto');
       }
-    }
-  }
+    },
+    logout() {
+      this.isLoggedIn = false;
+      localStorage.setItem('loggedIn', this.isLoggedIn); 
+      console.log('isLoggedIn:', this.isLoggedIn);
+      this.$router.push('/');
+    },
+  },
+  mounted() {
+    this.isLoggedIn = localStorage.getItem('loggedIn') === 'true'; 
+    console.log('isLoggedIn:', this.isLoggedIn);
+  },
 };
 </script>
 

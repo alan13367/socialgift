@@ -6,6 +6,28 @@
         <input type="text" v-model="searchQuery" placeholder="Search for wishlists...">
         <button class="search-button" @click="search">Search</button>
       </div>
+      <div class="create-wishlist">
+        <router-link :to="'/createwishlist'">
+          <button class="create-button">Create Wishlist</button>
+        </router-link>
+        <div class="create-wishlist">
+  <router-link :to="'/createwishlist'">
+    <button class="create-button">Create Wishlist</button>
+  </router-link>
+  <div v-if="showCreateForm">
+    <h2>Create Wishlist</h2>
+    <form @submit="submitCreateForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" v-model="newWishlist.name" required>
+      <label for="description">Description:</label>
+      <input type="text" id="description" v-model="newWishlist.description" required>
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" v-model="newWishlist.end_date" required>
+      <button type="submit">Create</button>
+    </form>
+  </div>
+</div>
+      </div>
     </div>
     <div class="wishlists">
       <div class="wishlist-row" v-for="(row, rowIndex) in chunkedWishlists" :key="rowIndex">
@@ -25,23 +47,67 @@ export default {
     return {
       searchQuery: '',
       wishlists: [],
-      chunkedWishlists: []
+      chunkedWishlists: [],
+    showCreateForm: false, 
+    newWishlist: { 
+      name: '',
+      description: '',
+      end_date: ''
     }
-  },
+  }
+},
+    
   created() {
     this.getWishlists()
   },
   methods: {
+
+    async submitCreateForm(event) {
+    event.preventDefault();
+
+    const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists';
+    const headers = {
+      'accept': 'application/json',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM',
+      'Content-Type': 'application/json'
+    };
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(this.newWishlist)
+    });
+
+    if (response.ok) {
+      console.log('Wishlist created successfully');
+      this.newWishlist.name = '';
+      this.newWishlist.description = '';
+      this.newWishlist.end_date = '';
+      this.showCreateForm = false;
+    } else {
+      console.error('Error creating wishlist:', response.status);
+    }
+  },
     async getWishlists() {
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/138'
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/22'
       const headers = {
         'accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM4LCJlbWFpbCI6Im1hcnRpbi5zb2xmZXJpbm9Ac3R1ZGVudHMuc2FsbGUudXJsLmVkdSIsImlhdCI6MTY4MzEzODgxOX0.3u7QDQ_g5qdUrxBeVQpNx52-aIi0wp3B70LPeC0mCRE'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM'
       }
       const response = await fetch(url, { headers })
-      const data = await response.json()
-      this.wishlists = data.wishlists
-      this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
+      if (response.ok) {
+        const data = await response.json()
+        if (data && data.wishlists) {
+          this.wishlists = data.wishlists
+          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
+          console.error(this.wishlists)
+        } else {
+          console.error('Error: Wishlists data is missing')
+          console.error(response)
+        }
+      } else {
+        console.error('Error calling API:', response.status)
+      }
     },
     search() {
       // Lógica para buscar en la lista de deseos
@@ -57,13 +123,19 @@ export default {
     }
   }
 }
-</script> 
+</script>
+
   
   <style scoped>
     .wishlist-list {
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+    .create-wishlist {
+      display: flex;
+      justify-content: flex-end;
+      width: 80%;
     }
     .search-bar {
       display: flex;
