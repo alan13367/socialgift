@@ -1,6 +1,6 @@
 <template>
-  <header>
-    <nav>
+  <header v-if="menuLogin">
+    <nav v-bind:class="{hidden: menuLogin}">
       <div class="menu">
         <RouterLink to="/">
           <img src="logo.png" alt="Logo de la empresa" />
@@ -14,6 +14,7 @@
       
     </nav>
   </header>
+  <header v-else="menuLogin"></header>
 </template>
 
 <script >

@@ -7,7 +7,6 @@ import MyHeader from './components/Header.vue';
 
 <template>
     <MyHeader />
-  <body>
     <main>
       <div class="background">
       <img src="@/assets/Imagenes/background.png" alt="Imagen de fondo">
@@ -18,7 +17,7 @@ import MyHeader from './components/Header.vue';
     <footer>
       <MyFooter />
     </footer>
-</body>
+
   
 </template>
 

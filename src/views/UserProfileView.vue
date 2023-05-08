@@ -35,7 +35,6 @@ main {
   padding: 8px 16px;
   border-radius: 40px;
   cursor: pointer;
-  weight: 323px;
 }
 
 .user-image{
@@ -69,7 +68,6 @@ main {
   padding: 8px 16px;
   border-radius: 40px;
   cursor: pointer;
-  weight: 323px;
 }
 
 .wishlist-buttons {
