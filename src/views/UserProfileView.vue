@@ -15,26 +15,20 @@ export default {
     fetchProfileData() {
       const id = localStorage.getItem("id");
       const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}`;
-      const token = localStorage.getItem("token");
+     
 
       fetch(url, {
         method: "GET",
         headers: {
           accept: "application/json",
-          Authorization: `Bearer ${token}`,
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
       })
         .then(response => {
-          console.error(response); // Mostrar información de la respuesta HTTP en la consola
+          console.error(response); 
           return response.json();
         })
         .then(data => {
-          console.error(data); 
-          console.error(data.id);
-          console.error(data.name);
-          console.error(data.last_name);
-          console.error(data.image);
-          console.error(data.email);
           this.profileData = data;
         })
         .catch(error => {

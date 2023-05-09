@@ -4,7 +4,7 @@ export default {
     return {
       email: '',
       password: '',
-      isLoggedIn: false,
+      loggedIn: false,
     };
   },
   methods: {
@@ -23,7 +23,6 @@ export default {
       });
       if (response.status === 200) {
         response.json().then(data => {
-          console.error('data:', data);
           let token = data.accessToken.slice(1,data.accessToken.length-1);
           localStorage.setItem('token', JSON.stringify(token));
           const getId = fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/search?s=${this.email}`, {
@@ -34,14 +33,9 @@ export default {
               'Authorization': 'Bearer ' + data.accessToken
             },
           }).then(response => response.json()).then(data => {
-            console.error('data:', data);
             localStorage.setItem('id', JSON.stringify(data[0].id));
           });
-
-          console.error('getId:', getId);
-          this.isLoggedIn = true;
-          localStorage.setItem('loggedIn', this.isLoggedIn);
-          console.error('isLoggedIn:', this.isLoggedIn);
+          localStorage.setItem('loggedIn', true);
           this.$router.push('/mywishlists');
         });
       } else if (response.status === 400) {
@@ -50,16 +44,9 @@ export default {
         console.error('Mail o password incorrecto');
       }
     },
-    logout() {
-      this.isLoggedIn = false;
-      localStorage.setItem('loggedIn', this.isLoggedIn);
-      console.log('isLoggedIn:', this.isLoggedIn);
-      this.$router.push('/');
-    },
   },
   mounted() {
-    this.isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-    console.log('isLoggedIn:', this.isLoggedIn);
+    this.loggedIn = localStorage.getItem('loggedIn') === 'true';
   },
 };
 </script>

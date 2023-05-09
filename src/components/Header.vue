@@ -1,22 +1,3 @@
-import routerlink from 'vue-router';
-
-<script>
-export default {
-  data() {
-    return {
-      isLoggedIn: false,
-    };
-  },
-  methods: {
-    logout() {
-      this.isLoggedIn = false;
-      console.error('isLoggedIn:', this.isLoggedIn);
-      this.$router.push('/');
-    },
-  },
-};
-</script>
-
 <template>
   <nav>
     <div class="menu">
@@ -25,7 +6,7 @@ export default {
           <img src="logo.png" alt="Logo de la empresa" />
         </router-link>
       </div>
-      <div class="menu-links" v-if="isLoggedIn">
+      <div class="menu-links" v-if="loggedIn">
         <router-link to="/mywishlists" class="menu-link">
           Mis Listas
         </router-link>
@@ -46,7 +27,7 @@ export default {
         </router-link>
       </div>
     </div>
-    <div class="actions" v-if="!isLoggedIn">
+    <div class="actions" v-if="loggedIn">
       <button>
         <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" />
       </button>
@@ -54,7 +35,7 @@ export default {
         <img src="@/assets/Imagenes/logoff.png" alt="Cerrar Sesion" />
       </button>
     </div>
-    <div class="divbuttons" v-if="!isLoggedIn">
+    <div class="divbuttons" v-else>
       <router-link to="/login">
         <button class="authbutton">Log In</button>
       </router-link>
@@ -64,6 +45,30 @@ export default {
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      loggedIn: false,
+      
+    };
+  },
+  mounted() {
+    if (localStorage.loggedIn !== undefined) {
+      this.loggedIn = !!localStorage.loggedIn;
+      this.loggedIn = localStorage.loggedIn === 'true';
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.setItem("loggedIn", false);
+      this.$router.push('/');
+    },
+  },
+  
+};
+</script>
 
 
 

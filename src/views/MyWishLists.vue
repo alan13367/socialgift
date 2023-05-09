@@ -6,28 +6,20 @@
         <input type="text" v-model="searchQuery" placeholder="Search for wishlists...">
         <button class="search-button" @click="search">Search</button>
       </div>
-      <div class="create-wishlist">
-        <router-link :to="'/createwishlist'">
-          <button class="create-button">Create Wishlist</button>
-        </router-link>
-        <div class="create-wishlist">
-  <router-link :to="'/createwishlist'">
-    <button class="create-button">Create Wishlist</button>
-  </router-link>
-  <div v-if="showCreateForm">
-    <h2>Create Wishlist</h2>
-    <form @submit="submitCreateForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" v-model="newWishlist.name" required>
-      <label for="description">Description:</label>
-      <input type="text" id="description" v-model="newWishlist.description" required>
-      <label for="end_date">End Date:</label>
-      <input type="date" id="end_date" v-model="newWishlist.end_date" required>
-      <button type="submit">Create</button>
-    </form>
+    </div>
   </div>
-</div>
-      </div>
+  <button class="create-button" @click="showCreateForm = true">Crear lista de deseos</button>
+    <div v-if="showCreateForm">
+      <h2>Crea una nueva lista de deseos</h2>
+      <form @submit.prevent="submitCreateForm">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" v-model="newWishlist.name" required>
+        <label for="description">Descripción:</label>
+        <input type="text" id="description" v-model="newWishlist.description" required>
+        <label for="end_date">Fecha de finalización:</label>
+        <input type="date" id="end_date" v-model="newWishlist.end_date" required>
+        <button type="submit">Crear</button>
+      </form>
     </div>
     <div class="wishlists">
       <div class="wishlist-row" v-for="(row, rowIndex) in chunkedWishlists" :key="rowIndex">
@@ -38,7 +30,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script>
@@ -62,37 +54,35 @@ export default {
   },
   methods: {
 
-    async submitCreateForm(event) {
-    event.preventDefault();
+    async submitCreateForm() {
+      const url =
+        "https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists";
+      const headers = {
+        accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      };
+      const response = await fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(this.newWishlist),
+      });
 
-    const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists';
-    const headers = {
-      'accept': 'application/json',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM',
-      'Content-Type': 'application/json'
-    };
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(this.newWishlist)
-    });
-
-    if (response.ok) {
-      console.log('Wishlist created successfully');
-      this.newWishlist.name = '';
-      this.newWishlist.description = '';
-      this.newWishlist.end_date = '';
-      this.showCreateForm = false;
-    } else {
-      console.error('Error creating wishlist:', response.status);
-    }
-  },
+      if (response.ok) {
+        console.error("Lista de deseos creada con éxito");
+        this.newWishlist.name = "";
+        this.newWishlist.description = "";
+        this.newWishlist.end_date = "";
+        this.showCreateForm = false;
+      } else {
+        console.error("Error al crear la lista de deseos:", response.status);
+      }
+    },
     async getWishlists() {
-      const url = ' https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists'
+      const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists`;
       const headers = {
         'accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUxLCJlbWFpbCI6InBydWViYUBwcnVlYmEuY29tIiwiaWF0IjoxNjgzMzk1OTEzfQ.ryUPGXJICNSOKMbyBbusVLa5oWCXiT43JbM0xwj-8KM',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
       const response = await fetch(url, { headers })
@@ -187,5 +177,10 @@ export default {
     .search-button {
       background-color: #A33DA5;
     }
+    .wishlist-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
   </style>
   
