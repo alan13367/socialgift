@@ -79,7 +79,8 @@ export default {
       }
     },
     async getWishlists() {
-      const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists`;
+      const id = localStorage.getItem('id');
+      const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}/wishlists`;
       const headers = {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),

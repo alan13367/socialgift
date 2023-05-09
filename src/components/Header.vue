@@ -14,7 +14,7 @@
           Amigos
         </router-link>
         <router-link to="/WishListFriends" class="menu-link">
-          Listas Amigos
+          Listas de regalos compartidas
         </router-link>
         <router-link to="/Chats" class="menu-link">
           Chats

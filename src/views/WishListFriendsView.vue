@@ -50,54 +50,7 @@ export default {
   created() {
     // Replace this with code to fetch wishlists from your backend
     this.wishlists = [
-      {
-        id: 1,
-        name: 'Wishlist 1',
-      },
-      {
-        id: 2,
-        name: 'Wishlist 2',
-      },
-      {
-        id: 3,
-        name: 'Wishlist 3',
-      },
-      {
-        id: 4,
-        name: 'Wishlist 4',
-      },
-      {
-        id: 5,
-        name: 'Wishlist 5',
-      },
-      {
-        id: 6,
-        name: 'Wishlist 6',
-      },
-      {
-        id: 7,
-        name: 'Wishlist 7',
-      },
-      {
-        id: 8,
-        name: 'Wishlist 8',
-      },
-      {
-        id: 9,
-        name: 'Wishlist 9',
-      },
-      {
-        id: 10,
-        name: 'Wishlist 10',
-      },
-      {
-        id: 11,
-        name: 'Wishlist 11',
-      },
-      {
-        id: 12,
-        name: 'Wishlist 12',
-      },
+      
     ]
   },
 }

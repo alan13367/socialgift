@@ -1,47 +1,47 @@
 <template>
   <div class="manage-friends">
-      <h1>Amigos</h1>
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar">
-        <button>Search</button>
-      </div>
+    <h1>Amigos</h1>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar">
+      <button>Search</button>
+    </div>
   </div>
-      <div class="friend-list">
-        <div class="friend-item" v-for="friend in friends" :key="friend.id">
-          <button class="dltFriend">Eliminar</button>
-          <img src="@/assets/Imagenes/friends.png" alt="Amigos">
-          <h3>{{ friend.name }}</h3>
-        </div>
-      </div>
+  <div class="friend-list">
+    <div class="friend-item" v-for="friend in friends" :key="friend.id">
+      <button class="dltFriend">Eliminar</button>
+      <img src="@/assets/Imagenes/friends.png" alt="Amigos">
+      <h3>{{ friend.name }}</h3>
+    </div>
+  </div>
 </template>
-
 
 <script>
 export default {
   data() {
     return {
-      friends: [
-        {
-          id: 1,
-          name: "Juan Perez",
-        },
-        {
-          id: 2,
-          name: "Maria Gomez",
-        },
-        {
-          id: 3,
-          name: "Pedro Rodriguez",
-        },
-        {
-          id: 4,
-          name: "Ana Garcia",
-        },
-      ],
+      friends: [],
     };
+  },
+  mounted() {
+    fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      this.friends = data;
+    })
+    .catch(error => {
+      console.error('Error al obtener los amigos:', error);
+    });
   },
 };
 </script>
+
+
 <style >
 
 main {
