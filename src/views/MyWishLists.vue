@@ -51,6 +51,7 @@ export default {
     
   created() {
     this.getWishlists()
+    
   },
   methods: {
 

@@ -23,8 +23,8 @@ export default {
       });
       if (response.status === 200) {
         response.json().then(data => {
-          let token = data.accessToken.slice(1,data.accessToken.length-1);
-          localStorage.setItem('token', JSON.stringify(token));
+          let token = data.accessToken.replace(/["']/g, "");
+          localStorage.setItem('token',token);
           const getId = fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/search?s=${this.email}`, {
             method: 'GET',
             headers: {
@@ -37,6 +37,7 @@ export default {
           });
           localStorage.setItem('loggedIn', true);
           this.$router.push('/mywishlists');
+          
         });
       } else if (response.status === 400) {
         console.error('Error  API');

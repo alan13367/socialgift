@@ -47,26 +47,33 @@
 </template>
 
 <script>
+
+
 export default {
   data() {
     return {
       loggedIn: false,
-      
-    };
+      };
   },
+
   mounted() {
     if (localStorage.loggedIn !== undefined) {
       this.loggedIn = !!localStorage.loggedIn;
       this.loggedIn = localStorage.loggedIn === 'true';
+      
+  
     }
   },
+  
   methods: {
     logout() {
       localStorage.setItem("loggedIn", false);
+      this.loggedIn = false;
       this.$router.push('/');
+      
     },
   },
-  
+
 };
 </script>
 
@@ -86,6 +93,7 @@ export default {
     width: 100%;
     z-index: 1;
     overflow-x: hidden;
+    height: 10%;
   }
 
   nav {

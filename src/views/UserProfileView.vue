@@ -5,11 +5,13 @@ export default {
     return {
       id: localStorage.getItem("id"),
       profileData: null,
-      wishlistItems: [],
+      wishlists: [],
+      chunkedWishlists: [],
     };
   },
   mounted() {
     this.fetchProfileData();
+    this.getWishlists();
   },
   methods: {
     fetchProfileData() {
@@ -35,6 +37,39 @@ export default {
           console.error(error);
         });
     },
+    async getWishlists() {
+      const id = localStorage.getItem('id');
+      const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}/wishlists`;
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+      const response = await fetch(url, { headers })
+      if (response.ok) {
+        const json_response = await response.json()
+        console.log(json_response)
+        if (json_response) {
+          this.wishlists = json_response
+          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
+          console.error(this.wishlists)
+        } else {
+          console.error('Error: Wishlists data is missing')
+          console.error(response)
+        }
+      } else {
+        console.error('Error calling API:', response.status)
+      }
+    },
+    chunkWishlists(wishlists, size) {
+      const rows = []
+      let index = 0
+      while (index < wishlists.length) {
+        rows.push(wishlists.slice(index, index + size))
+        index += size
+      }
+      return rows
+    }
   },
 };
 </script>
@@ -50,7 +85,7 @@ export default {
     <div class="wishlist">
       <h4>WishList</h4>
       <div class="wishlist-buttons">
-        <button class="wishlistbtn" v-for="item in wishlistItems" :key="item.id">{{ item.name }}</button>
+        <button class="wishlistbtn" v-for="item in wishlists" :key="item.id">{{ item.name }}</button>
       </div>
     </div>
   </div>

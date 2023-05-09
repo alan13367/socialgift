@@ -22,22 +22,29 @@ export default {
       friends: [],
     };
   },
-  mounted() {
-    fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
+  async getWishlists() {
+      const id = localStorage.getItem('id');
+      const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}/friends`;
+      const headers = {
+        'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => response.json())
-    .then(data => {
-      this.friends = data;
-    })
-    .catch(error => {
-      console.error('Error al obtener los amigos:', error);
-    });
-  },
+        'Content-Type': 'application/json'
+      }
+      const response = await fetch(url, { headers })
+      if (response.ok) {
+        const json_response = await response.json()
+        if (json_response) {
+          this.wishlists = json_response
+          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
+          console.error(this.wishlists)
+        } else {
+          console.error('Error: Wishlists data is missing')
+          console.error(response)
+        }
+      } else {
+        console.error('Error calling API:', response.status)
+      }
+    },
 };
 </script>
 

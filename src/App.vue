@@ -1,7 +1,6 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import AuthButtons from './components/AuthButtons.vue';
-import MyFooter from './components/Footer.vue';
+import { RouterLink, RouterView } from 'vue-router';
+import Footer from './components/Footer.vue';
 import MyHeader from './components/Header.vue';
 </script>
 
@@ -10,14 +9,11 @@ import MyHeader from './components/Header.vue';
     <main>
       <div class="background">
       <img src="@/assets/Imagenes/background.png" alt="Imagen de fondo">
-    </div>
+      </div>
       <RouterView />
     </main>
-    <footer>
-      <MyFooter />
-    </footer>
-
-  
+    
+    <Footer />
 </template>
 
 
@@ -38,10 +34,8 @@ body {
 
 main {
     grid-area: main;
-}
-footer {
-    background-color: #7E57C2;
-    grid-area: footer;
+    display: flex;
+    height: 78%;
 }
 
 .background {
