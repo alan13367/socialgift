@@ -26,6 +26,10 @@ export default {
       wishlists: [],
       searchQuery: '',
     }
+  },beforeMount() {
+    console.log("ddffdfd")
+    this.getFriendsWishLists();
+    
   },
   methods: {
     search() {
@@ -37,6 +41,53 @@ export default {
         chunks.push(array.slice(i, i + chunkSize))
       }
       return chunks
+    },
+    async getFriendsWishLists() {
+      console.log("pasa")
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends`;
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      };
+      const response = await fetch(url, { headers });
+      if (response.ok) {
+        const json_response = await response.json();
+        if (json_response) {
+          let friends = json_response.map(item => item.id);
+          const id = localStorage.getItem('id');
+          const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists`;
+          const headers = {
+            'accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+           }
+          console.log("inicio segunda llamada fetch")
+          const response = await fetch(url, { headers })
+          
+          console.log("fin segunda llamada fetch")
+          if (response.ok) {
+            const json_response = await response.json()
+            console.log(json_response)
+            if (json_response) {
+              let allWishlists = json_response
+              this.wishlists = allWishlists.filter(item => friends.includes(item.user_id))
+              this.chunkedWishlists = this.chunkArray(this.wishlists, 3)
+              console.error(this.wishlists)
+            } else {
+              console.error('Error: Wishlists data is missing')
+              console.error(response)
+            }
+          } else {
+            console.error('Error calling API:', response.status)
+          }
+        } else {
+          console.error('Error: Friends data is missing')
+          console.error(response)
+        }
+      } else {
+        console.error('Error calling API:', response.status)
+      }
     },
   },
   computed: {

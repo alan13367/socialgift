@@ -122,6 +122,7 @@ button {
     font-family: 'Inter', sans-serif;
     padding: 10px 20px;
     cursor: pointer;
+    padding-right: 1opx;
 }
 
 .friend-list {
@@ -141,6 +142,7 @@ button {
   margin-right: 16px;
   height: 48px;
   width: 48px;
+  padding: 10px;
 }
 
 .friend-details {
