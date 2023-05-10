@@ -128,6 +128,7 @@ export default {
         .then(response => {
           if (response.status === 200) {
             console.log('Solicitud Aceptada');
+            location.reload();
           } else if (response.status === 400 || response.status === 406 || response.status === 500 || response.status === 502) {
             console.log('Error en solicitud');
           } else if (response.status === 401) {

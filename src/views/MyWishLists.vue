@@ -75,8 +75,9 @@ export default {
         this.newWishlist.description = "";
         this.newWishlist.end_date = "";
         this.showCreateForm = false;
+        location.reload();
       } else {
-        console.error("Error al crear la lista de deseos:", response.status);
+        console.log("Error al crear la lista de deseos:", response.status);
       }
     },
     async getWishlists() {

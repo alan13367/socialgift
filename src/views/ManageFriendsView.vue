@@ -10,7 +10,8 @@
     <div class="friend-item" v-for="friend in friends" :key="friend.id">
       <button class="dltFriend" @click="deleteFriend(friend.id)">Eliminar</button>
       <img :src="friend.image" alt="Amigos">
-      <h3>{{ friend.name }}</h3>
+      <h3>{{ friend.name + ' '+friend.last_name}}</h3>
+      
     </div>
   </div>
 </template>
