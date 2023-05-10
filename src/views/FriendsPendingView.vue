@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="right-container">
-      <h3>Envíos pendientes</h3>
+      <h3>Resultados de busqueda:</h3>
       <div v-for="item in rightItems" :key="item.id" class="item">
         <button @click="sendFriendRequest(item.id)">Solicitar amistad</button>
         <p>{{ item.name }}</p>

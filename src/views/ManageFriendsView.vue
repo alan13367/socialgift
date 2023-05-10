@@ -24,10 +24,10 @@ export default {
     };
   },
   created() {
-    this.getWishlists();
+    this.getfriends();
   },
   methods: {
-    async getWishlists() {
+    async getfriends() {
       const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends`;
       const headers = {
         'accept': 'application/json',
@@ -60,7 +60,7 @@ export default {
       });
 
       if (response.ok) {
-        console.log('Se ha eliminado el amigo');
+        console.log('Amigo eliminado');
         this.friends = this.friends.filter(friend => friend.id !== id);
       } else if (response.status === 401) {
         console.error('No autorizado');
