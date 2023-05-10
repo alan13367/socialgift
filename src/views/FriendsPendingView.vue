@@ -1,25 +1,25 @@
 <template>
-    <div class="search-bar">
-      <input type="text" v-model="searchQuery" placeholder="Search for gifts...">
-      <button @click="search">Search</button>
+  <div class="search-bar">
+    <input type="text" v-model="searchQuery" placeholder="Buscar amigos">
+    <button @click="search">Buscar</button>
+  </div>
+  <div class="container">
+    <div class="left-container">
+      <h3>Solicitudes pendientes</h3>
+      <div v-for="item in leftItems" :key="item.id" class="item">
+        <button @click="acceptFriendRequest(item.id)">Aceptar Amistad</button>
+        <img class="imgfriends" src="@/assets/Imagenes/friends.png" alt="friends">
+        <p>{{ item.name }}</p>
+      </div>
     </div>
-    <div class="container">
-      <div class="left-container">
-        <h3>Solicitudes pendientes</h3>
-        <div v-for="item in leftItems" :key="item.id" class="item">
-          <button>Aceptar</button>
-          <img class="imgfriends" src="@/assets/Imagenes/friends.png" alt="friends">
-          <p>{{ item.name }}</p>
-        </div>
+    <div class="right-container">
+      <h3>Envíos pendientes</h3>
+      <div v-for="item in rightItems" :key="item.id" class="item">
+        <button @click="sendFriendRequest(item.id)">Solicitar amistad</button>
+        <p>{{ item.name }}</p>
       </div>
-      <div class="right-container">
-        <h3>Envíos pendientes</h3>
-        <div v-for="item in rightItems" :key="item.id" class="item">
-          <button>Pendiente</button>
-          <p>{{ item.name }}</p>
-        </div>
-      </div>
-    </div> 
+    </div>
+  </div>
 </template>
 
 <script>
@@ -27,23 +27,122 @@ export default {
   data() {
     return {
       searchQuery: '',
-      leftItems: [
-        { id: 1, name: 'Nombre Completo 1' },
-        { id: 2, name: 'Nombre Completo 2' },
-        { id: 3, name: 'Nombre Completo 3' },
-        { id: 4, name: 'Nombre Completo 4' },
-      ],
-      rightItems: [
-        { id: 1, name: 'Nombre Completo 5' },
-        { id: 2, name: 'Nombre Completo 6' },
-        { id: 3, name: 'Nombre Completo 7' },
-        { id: 4, name: 'Nombre Completo 8' },
-      ],
+      leftItems: [],
+      rightItems: [],
     }
   },
-  
+  created() {
+    this.getFriendRequests();
+  },
+  methods: {
+    getFriendRequests() {
+      fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends/requests', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'accept': 'application/json'
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else if (response.status === 401) {
+            console.log('Fallo en el token');
+          } else {
+            console.log('Error Api');
+          }
+        })
+        .then(data => {
+          localStorage.setItem('friendsrequest', JSON.stringify(data));
+          this.leftItems = data.map(item => {
+            return {
+              id: item.id,
+              name: `${item.name} ${item.last_name}`
+            }
+          });
+        })
+        .catch(error => console.log(error));
+    },
+    search() {
+      fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/search?s=${this.searchQuery}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'accept': 'application/json'
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else if (response.status === 401) {
+            console.log('Fallo en el token');
+          } else {
+            console.log('Error Api');
+          }
+        })
+        .then(data => {
+          localStorage.setItem('searchResults', JSON.stringify(data));
+          this.rightItems = data.map(item => {
+            return {
+              id: item.id,
+              name: `${item.name} ${item.last_name}`
+            }
+          });
+        })
+        .catch(error => console.log(error));
+    },
+    sendFriendRequest(id) {
+      localStorage.setItem('idfriend', id);
+      fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends/${id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'accept': 'application/json'
+        },
+        body: ''
+      })
+        .then(response => {
+          if (response.status === 201) {
+            console.log('Solicitud enviada');
+          } else if (response.status === 400) {
+            console.log('Solicitud erronea');
+          } else if (response.status === 401) {
+            console.log('Fallo en el token');
+          } else if (response.status === 409) {
+            console.log('La solicitud ya está registrada a este amigo');
+          } else if (response.status === 410) {
+            console.log('El id de usuario no existe');
+          } else {
+            console.log('Error Api');
+          }
+        })
+        .catch(error => console.log(error));
+    },
+    acceptFriendRequest(id) {
+      fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'accept': 'application/json'
+        },
+        body: ''
+      })
+        .then(response => {
+          if (response.status === 200) {
+            console.log('Solicitud Aceptada');
+          } else if (response.status === 400 || response.status === 406 || response.status === 500 || response.status === 502) {
+            console.log('Error en solicitud');
+          } else if (response.status === 401) {
+            console.log('No autorizado');
+          } else if (response.status === 410) {
+            console.log('El usuario no existe');
+          }
+        })
+        .catch(error => console.log(error));
+    }
+  },
 }
 </script>
+
+
 
 <style scoped>
 .container {
@@ -107,44 +206,44 @@ h3 {
   align-items: center;
   width: 90%;
   height: 10%;
-  margin: 0 auto 30px auto; 
+  margin: 0 auto 30px auto;
 }
 
-  input[type="text"] {
-    width: 70%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    margin-right: 10px;
-  }
+input[type="text"] {
+  width: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  margin-right: 10px;
+}
 
-  button {
-    background-color: #7C3AED;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
+button {
+  background-color: #7C3AED;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  padding: 10px 20px;
+  cursor: pointer;
+}
 
-  button:hover {
-    background-color: #5b2eab;
-  }
+button:hover {
+  background-color: #5b2eab;
+}
 
-  .item {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+.item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-  .item p {
-    margin: 0;
-    margin-left: 10px;
-  }
+.item p {
+  margin: 0;
+  margin-left: 10px;
+}
 </style>

@@ -2,6 +2,7 @@
 export default {
   data() {
     return {
+      id: '',
       name: '',
       lastName: '',
       email: '',
@@ -13,6 +14,7 @@ export default {
     submitForm() {
       const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/users';
       const data = {
+        id: this.id,
         name: this.name,
         last_name: this.lastName,
         email: this.email,
@@ -29,7 +31,7 @@ export default {
       .then(response => {
         if (response.status === 201) {
           response.json().then(data => {
-            localStorage.setItem('userData', JSON.stringify(data));
+            localStorage.setItem('id', JSON.stringify(data.id));
             localStorage.setItem('loggedIn', true);
             console.error(data.id);
             this.$router.push('/mywishlists');

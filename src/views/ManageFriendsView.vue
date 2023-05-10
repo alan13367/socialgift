@@ -8,8 +8,8 @@
   </div>
   <div class="friend-list">
     <div class="friend-item" v-for="friend in friends" :key="friend.id">
-      <button class="dltFriend">Eliminar</button>
-      <img src="@/assets/Imagenes/friends.png" alt="Amigos">
+      <button class="dltFriend" @click="deleteFriend(friend.id)">Eliminar</button>
+      <img :src="friend.image" alt="Amigos">
       <h3>{{ friend.name }}</h3>
     </div>
   </div>
@@ -22,31 +22,55 @@ export default {
       friends: [],
     };
   },
-  async getWishlists() {
-      const id = localStorage.getItem('id');
-      const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}/friends`;
+  created() {
+    this.getWishlists();
+  },
+  methods: {
+    async getWishlists() {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends`;
       const headers = {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Content-Type': 'application/json'
-      }
-      const response = await fetch(url, { headers })
+      };
+      const response = await fetch(url, { headers });
       if (response.ok) {
-        const json_response = await response.json()
+        const json_response = await response.json();
         if (json_response) {
-          this.wishlists = json_response
-          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
-          console.error(this.wishlists)
+          this.friends = json_response;
         } else {
-          console.error('Error: Wishlists data is missing')
-          console.error(response)
+          console.error('Error: Friends data is missing');
+          console.error(response);
         }
       } else {
-        console.error('Error calling API:', response.status)
+        console.error('Error calling API:', response.status);
       }
     },
+    async deleteFriend(id) {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends/${id}`;
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      };
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: headers
+      });
+
+      if (response.ok) {
+        console.log('Se ha eliminado el amigo');
+        this.friends = this.friends.filter(friend => friend.id !== id);
+      } else if (response.status === 401) {
+        console.error('No autorizado');
+      } else {
+        console.error('Error al realizar solicitud');
+      }
+    }
+  }
 };
 </script>
+
 
 
 <style >
