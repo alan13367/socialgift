@@ -16,64 +16,134 @@
           </div>
           <button class="sharebtn" @click="share(gift)"> <img src="src/assets/Imagenes/share.png" alt=""></button>
           <button class="deletebtn" @click="deleteGift(gift)"> <img src="src/assets/Imagenes/bin.png" alt=""></button>
+          <button class="addbtn" @click="addGift(gift)">Agregar</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-  
+
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
       gifts: [],
       searchQuery: '',
+      wishlistId: null,
     }
-
   },
-
+  props: {
+    selectedWishlistId: {
+      type: Number,
+      required: true
+    },
+  },
+  mounted() {
+    console.log('Selected Wishlist ID:', this.selectedWishlistId);
+    this.fetchWishlist();
+  },
   created() {
-    this.getfriends();
+    emmiter.on('wishlistSelected', (wishlistId) => {
+      this.selectedWishlistId = wishlistId;
+      this.fetchWishlist();
+      console.error('Selected Wishlist ID:', this.selectedWishlistId);
+    });
   },
   methods: {
-    getgifts(id) {
-      fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${id}`, {
+    async fetchWishlist() {
+      try {
+        const wishlistId = localStorage.getItem('wishlistId');
+        const response = await fetch(
+          `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlistId}`,
+          {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+              
+              password: this.password
+            })
+          },
+
+        );
+
+        const data = await response.json();
+        console.error(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    addGift(gift) {
+      const searchUrl = `https://balandrau.salle.url.edu/i3/mercadoexpress/api/v1/products/search?s=${this.searchQuery}`;
+      fetch(searchUrl, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'accept': 'application/json'
         }
       })
         .then(response => {
           if (response.ok) {
             return response.json();
-          } else if (response.status === 401) {
-            console.log('Fallo en el token');
           } else {
-            console.log('Error Api');
+            throw new Error('Error en la búsqueda del producto');
           }
         })
         .then(data => {
-          localStorage.setItem('giftrequest', JSON.stringify(data));
-          this.filteredGifts = data.map(gift => {
-            return {
-              id: gift.id,
-              name: `${gift.name}`
-            }
-          });
+          if (data && Array.isArray(data) && data.length > 0) {
+            const selectedProduct = data[0];
+            const postUrl = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts';
+            const postData = {
+              wishlist_id: this.wishlistId,
+              product_url: selectedProduct.link,
+              priority: 33
+            };
+            fetch(postUrl, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(postData)
+            })
+              .then(response => {
+                if (response.ok) {
+                  console.log('Gift added successfully');
+
+                } else {
+                  throw new Error('Error al agregar el regalo');
+                }
+              })
+              .catch(error => console.log(error));
+          } else {
+            throw new Error('No se encontraron productos');
+          }
         })
         .catch(error => console.log(error));
-
     },
 
-    share(gift) {
-      // Add gift sharing logic here
-    },
-    deleteGift(gift) {
-      // Add gift deleting logic here
-    },
     search() {
-      // Add search logic here
+      const searchUrl = `https://balandrau.salle.url.edu/i3/mercadoexpress/api/v1/products/search?s=${this.searchQuery}`;
+      fetch(searchUrl, {
+        headers: {
+          'accept': 'application/json'
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Error en la búsqueda del producto');
+          }
+        })
+        .then(data => {
+          console.log(data);
 
+          this.gifts = data;
+        })
+        .catch(error => console.log(error));
     }
   },
   computed: {
@@ -165,5 +235,6 @@ export default {
 .gift button img {
   width: 30px;
   height: 30px;
-}</style>
+}
+</style>
   

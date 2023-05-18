@@ -2,10 +2,13 @@
 import { RouterLink, RouterView } from 'vue-router';
 import Footer from './components/Footer.vue';
 import MyHeader from './components/Header.vue';
+
+
+  
 </script>
 
 <template>
-    <MyHeader />
+    <MyHeader /> 
     <main>
       <div class="background">
       <img src="@/assets/Imagenes/background.png" alt="Imagen de fondo">

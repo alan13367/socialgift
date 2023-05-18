@@ -48,21 +48,28 @@
 
 <script>
 
-
+import emmiter from '@/plugins/emmiter';
 export default {
+  
   data() {
     return {
       loggedIn: false,
       };
   },
-
+created() {
+    emmiter.on('loggedIn', (value) => {
+      this.loggedIn = value;
+    });
+  },
   mounted() {
+    
     if (localStorage.loggedIn !== undefined) {
       this.loggedIn = !!localStorage.loggedIn;
       this.loggedIn = localStorage.loggedIn === 'true';
-      
+    
   
     }
+  
   },
   
   methods: {

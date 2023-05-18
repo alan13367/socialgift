@@ -23,8 +23,8 @@
     </div>
     <div class="wishlists">
       <div class="wishlist-row" v-for="(row, rowIndex) in chunkedWishlists" :key="rowIndex">
-        <div v-for="(wishlist, colIndex) in row" :key="wishlist.id" class="wishlist-container">
-          <router-link :to="'/mywishlist'" class="wishlist">
+        <div v-for="(wishlist, colIndex) in row" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id)">
+          <router-link :to="`/mywishlist`" class="wishlist">
             <h3>{{ wishlist.name }}</h3>
           </router-link>
         </div>
@@ -34,12 +34,14 @@
 </template>
 
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
       searchQuery: '',
       wishlists: [],
       chunkedWishlists: [],
+      selectedWishlistId: null,
     showCreateForm: false, 
     newWishlist: { 
       name: '',
@@ -54,7 +56,11 @@ export default {
     
   },
   methods: {
-
+    selectWishlist(id) {
+      this.selectedWishlistId = id;
+      emitter.emit('wishlistSelected', id);
+      localStorage.setItem('wishlistId', id);
+    },
     async submitCreateForm() {
       const url =
         "https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists";
@@ -91,11 +97,9 @@ export default {
       const response = await fetch(url, { headers })
       if (response.ok) {
         const json_response = await response.json()
-        console.log(json_response)
         if (json_response) {
           this.wishlists = json_response
           this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
-          console.error(this.wishlists)
         } else {
           console.error('Error: Wishlists data is missing')
           console.error(response)

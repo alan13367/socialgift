@@ -1,4 +1,5 @@
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
@@ -10,7 +11,8 @@ export default {
   methods: {
     async submitForm(event) {
       event.preventDefault();
-      const response = await fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/login', {
+      const response = await fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/login', 
+      {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -36,6 +38,8 @@ export default {
             localStorage.setItem('id', JSON.stringify(data[0].id));
           });
           localStorage.setItem('loggedIn', true);
+          emmiter.emit('loggedIn', true);
+
           this.$router.push('/mywishlists');
           
         });
