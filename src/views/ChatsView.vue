@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="friend-list">
-      <div class="friend-item" v-for="friend in friends" :key="friend.id">
+      <div class="friend-item" v-for="friend in friends" @click="getMessages(friend.id)" :key="friend.id">
         <img :src="friend.image" alt="Amigos">
         <h3>{{ friend.name + ' ' + friend.last_name }}</h3>
       </div>
@@ -16,7 +16,7 @@
       </div>
       <div class="chat-input">
         <input type="text" v-model="newMessageText" placeholder="Type your message here..." />
-        <button @click="sendMessage">Send</button>
+        <button @click="sendMessage()">Send</button>
       </div>
     </div>
   </div>
@@ -29,6 +29,7 @@ export default {
       friends: [],
       newMessageText: '',
       messages: [],
+      selectedFriendId: '',
     };
   },
   created() {
@@ -65,7 +66,7 @@ export default {
       const data = {
         content: this.newMessageText,
         user_id_send: localStorage.getItem('id'),
-        user_id_recived: 202,
+        user_id_recived: this.selectedFriendId,
       };
       const response = await fetch(url, {
         method: 'POST',
@@ -74,13 +75,14 @@ export default {
       });
       if (response.ok) {
         this.newMessageText = '';
-        this.getMessages();
+        this.getMessages(this.selectedFriendId);
       } else {
         console.error('Error sending message:', response.status);
       }
     },
-    async getMessages() {
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages/202';
+    async getMessages(id) {
+      this.selectedFriendId = id;
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages/'+id;
       const headers = {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -99,7 +101,7 @@ export default {
       } else {
         console.error('Error calling API:', response.status);
       }
-    },
+    }
   },
 };
 </script>
