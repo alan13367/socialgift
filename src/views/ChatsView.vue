@@ -48,6 +48,7 @@ export default {
         const json_response = await response.json();
         if (json_response) {
           this.friends = json_response;
+          //this.selectedFriendId = this.friends[0].id No estoy seguro si es asi pero hay que seleccionar el primero al cargar los amigos
         } else {
           console.error('Error: Friends data is missing');
           console.error(response);
