@@ -8,11 +8,11 @@
       </div>
     </div>
     <div class="gifts">
-      <div v-for="gift in filteredGifts" :key="gift.id" class="gift-container">
+      <div v-for="gift in GiftsList" :key="gift.id" class="gift-container">
         <div class="gift">
           <img :src="gift.image" alt="Gift image">
           <div class="gift-info">
-            <h3>{{ gift.name }}</h3>
+            <h3>{{ }}</h3>
           </div>
           <button class="sharebtn" @click="share(gift)"> <img src="src/assets/Imagenes/share.png" alt=""></button>
           <button class="deletebtn" @click="deleteGift(gift)"> <img src="src/assets/Imagenes/bin.png" alt=""></button>
@@ -28,54 +28,51 @@ import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
-      gifts: [],
+      GiftsList: [],
       searchQuery: '',
       wishlistId: null,
     }
   },
-  props: {
-    selectedWishlistId: {
-      type: Number,
-      required: true
-    },
-  },
   mounted() {
     console.log('Selected Wishlist ID:', this.selectedWishlistId);
-    this.fetchWishlist();
+    
   },
   created() {
     emmiter.on('wishlistSelected', (wishlistId) => {
       this.selectedWishlistId = wishlistId;
-      this.fetchWishlist();
+      
       console.error('Selected Wishlist ID:', this.selectedWishlistId);
+      this.getgiftslist();
     });
   },
   methods: {
-    async fetchWishlist() {
+    async getgiftslist() {
       try {
-        const wishlistId = localStorage.getItem('wishlistId');
-        const response = await fetch(
-          `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlistId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify({
-              
-              password: this.password
-            })
-          },
+        const token = localStorage.getItem("token");
+        const response = await fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/45', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
 
-        );
-
-        const data = await response.json();
-        console.error(data);
+        if (response.ok) {
+          const data = await response.json();
+          this.GiftsList = data.gifts.map(gift => ({
+            id: gift.id,
+            image: gift.product_url,
+            
+          }));
+          console.error('Gifts list:', this.GiftsList);
+        } else {
+          console.error('Error retrieving gifts list:', response.status, response.statusText);
+        }
       } catch (error) {
-        console.error(error);
+        console.error('Error retrieving gifts list:', error);
       }
     },
+  
     addGift(gift) {
       const searchUrl = `https://balandrau.salle.url.edu/i3/mercadoexpress/api/v1/products/search?s=${this.searchQuery}`;
       fetch(searchUrl, {
