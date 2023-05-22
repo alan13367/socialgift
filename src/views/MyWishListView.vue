@@ -33,32 +33,30 @@ export default {
       wishlistId: null,
     }
   },
-  mounted() {
-    console.log('Selected Wishlist ID:', this.selectedWishlistId);
-    
-  },
   created() {
+    console.log("Hola Created")
+    this.getgiftslist();
+    
     emmiter.on('wishlistSelected', (wishlistId) => {
       this.selectedWishlistId = wishlistId;
-      
       console.error('Selected Wishlist ID:', this.selectedWishlistId);
-      this.getgiftslist();
+      
     });
+    
   },
   methods: {
-    async getgiftslist() {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch('https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/45', {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
+    async getgiftslist(_selectedWishlistId) {
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/45';
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+      console.log(url)
+      const response = await fetch(url, { headers })
         if (response.ok) {
           const data = await response.json();
+          
           this.GiftsList = data.gifts.map(gift => ({
             id: gift.id,
             image: gift.product_url,
@@ -68,12 +66,9 @@ export default {
         } else {
           console.error('Error retrieving gifts list:', response.status, response.statusText);
         }
-      } catch (error) {
-        console.error('Error retrieving gifts list:', error);
-      }
     },
   
-    addGift(gift) {
+    addGift(_gift) {
       const searchUrl = `https://balandrau.salle.url.edu/i3/mercadoexpress/api/v1/products/search?s=${this.searchQuery}`;
       fetch(searchUrl, {
         headers: {
