@@ -25,40 +25,33 @@
   export default {
     data() {
       return {
-        gifts: [
-          {
-            id: 1,
-            name: 'Gift 1',
-            image: 'src/assets/Imagenes/gift.jpg',
-          },
-          {
-            id: 2,
-            name: 'Gift 2',
-            image: 'src/assets/Imagenes/gift.jpg',
-          },
-          {
-            id: 3,
-            name: 'Gift 3',
-            image: 'src/assets/Imagenes/gift.jpg',
-          },
-          {
-            id: 4,
-            name: 'Gift 4',
-            image: 'src/assets/Imagenes/gift.jpg',
-          },
-          {
-            id: 5,
-            name: 'Gift 5',
-            image: 'src/assets/Imagenes/gift.jpg',
-          },
-        ],
+        gifts: [],
         searchQuery: '',
       }
     },
     methods: {
-      giftIt(gift) {
-        // Add gift giving logic here
-      },
+      async getgiftslist(_selectedWishlistId) {
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/45';
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+      console.log(url)
+      const response = await fetch(url, { headers })
+        if (response.ok) {
+          const data = await response.json();
+          
+          this.GiftsList = data.gifts.map(gift => ({
+            id: gift.id,
+            image: gift.product_url,
+            
+          }));
+          console.error('Gifts list:', this.GiftsList);
+        } else {
+          console.error('Error retrieving gifts list:', response.status, response.statusText);
+        }
+    },
       search() {
         // Add search logic here
       },

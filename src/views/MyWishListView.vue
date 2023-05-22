@@ -16,7 +16,6 @@
           </div>
           <button class="sharebtn" @click="share(gift)"> <img src="src/assets/Imagenes/share.png" alt=""></button>
           <button class="deletebtn" @click="deleteGift(gift)"> <img src="src/assets/Imagenes/bin.png" alt=""></button>
-          <button class="addbtn" @click="addGift(gift)">Agregar</button>
         </div>
       </div>
     </div>
