@@ -29,28 +29,30 @@
         searchQuery: '',
       }
     },
+    created() {
+      this.getgiftslist();
+    },
     methods: {
-      async getgiftslist(_selectedWishlistId) {
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/45';
+      async getgiftslist() {
+      const wishlist_id = localStorage.getItem('wishlistFriendsId');
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlist_id}`;
       const headers = {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
-      console.log(url)
       const response = await fetch(url, { headers })
-        if (response.ok) {
-          const data = await response.json();
-          
-          this.GiftsList = data.gifts.map(gift => ({
-            id: gift.id,
-            image: gift.product_url,
-            
-          }));
-          console.error('Gifts list:', this.GiftsList);
-        } else {
-          console.error('Error retrieving gifts list:', response.status, response.statusText);
-        }
+      if (response.ok) {
+        const data = await response.json();
+        this.GiftsList = data.gifts.map(gift => ({
+          id: gift.id,
+          image: gift.product_url,
+
+        }));
+        console.error('Gifts list:', this.GiftsList);
+      } else {
+        console.error('Error retrieving gifts list:', response.status, response.statusText);
+      }
     },
       search() {
         // Add search logic here

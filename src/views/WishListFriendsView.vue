@@ -25,9 +25,9 @@ export default {
     return {
       wishlists: [],
       searchQuery: '',
+      
     }
   },beforeMount() {
-    console.log("ddffdfd")
     this.getFriendsWishLists();
     
   },
