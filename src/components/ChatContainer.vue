@@ -1,41 +1,53 @@
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   name: 'ChatContainer',
   props: {},
   data() {
     return {
       messages: [],
+      selectedFriendId: '',
     };
   },
   methods: {
-    getMessages() {
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages';
+    async getMessages(id) {
+      this.selectedFriendId = id;
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages/${id}`;
       const headers = {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Content-Type': 'application/json',
       };
-      const response = await fetch(url, { headers });
-      if (response.ok) {
-        const json_response = await response.json();
-        if (json_response) {
-          this.messages = json_response
-            .sort((a, b) => a.id - b.id)
-            .map((message) => ({ text: message.content }));
+      try {
+        const response = await fetch(url, { headers });
+        if (response.ok) {
+          const json_response = await response.json();
+          if (json_response) {
+            this.messages = json_response
+              .sort((a, b) => a.id - b.id)
+              .map((message) => ({ text: message.content }));
+          } else {
+            console.error('Error: Messages data is missing');
+            console.error(response);
+          }
         } else {
-          console.error('Error: Messages data is missing');
-          console.error(response);
+          console.error('Error calling API:', response.status);
         }
-      } else {
-        console.error('Error calling API:', response.status);
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
       }
     },
   },
-  mounted() {
-    this.getMessages();
+  created() {
+    emitter.on('getMessages', this.getMessages);
+  },
+  destroyed() {
+    emitter.off('getMessages', this.getMessages);
   },
 };
 </script>
+
 
 <template>
   <div class="chat-container">

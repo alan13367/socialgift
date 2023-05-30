@@ -1,115 +1,23 @@
 <template>
   <div class="app-container">
-    <div class="friend-list">
-      <div class="friend-item" v-for="friend in friends" @click="getMessages(friend.id)" :key="friend.id">
-        <img :src="friend.image" alt="Amigos">
-        <h3>{{ friend.name + ' ' + friend.last_name }}</h3>
-      </div>
-    </div>
-    <div class="chat-container">
-      <div class="chat-messages">
-        <div class="message" v-for="message in messages" :class="{'outgoing': message.outgoing, 'incoming': !message.outgoing}">
-          <div class="message-bubble">
-            <p>{{ message.text }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="chat-input">
-        <input type="text" v-model="newMessageText" placeholder="Type your message here..." />
-        <button @click="sendMessage()">Send</button>
-      </div>
-    </div>
+    <friend-list></friend-list>
+    <chat-container></chat-container>
   </div>
 </template>
 
 <script>
+import FriendList from '../components/FriendList.vue';
+import ChatContainer from '../components/ChatContainer.vue';
+
 export default {
-  data() {
-    return {
-      friends: [],
-      newMessageText: '',
-      messages: [],
-      selectedFriendId: '',
-    };
-  },
-  created() {
-    this.getFriends();
-  },
-  methods: {
-    async getFriends() {
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends';
-      const headers = {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        'Content-Type': 'application/json',
-      };
-      const response = await fetch(url, { headers });
-      if (response.ok) {
-        const json_response = await response.json();
-        if (json_response) {
-          this.friends = json_response;
-          //this.selectedFriendId = this.friends[0].id No estoy seguro si es asi pero hay que seleccionar el primero al cargar los amigos
-        } else {
-          console.error('Error: Friends data is missing');
-          console.error(response);
-        }
-      } else {
-        console.error('Error calling API:', response.status);
-      }
-    },
-    async sendMessage() {
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages';
-      const headers = {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        'Content-Type': 'application/json',
-      };
-      const data = {
-        content: this.newMessageText,
-        user_id_send: localStorage.getItem('id'),
-        user_id_recived: this.selectedFriendId,
-      };
-      const response = await fetch(url, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        this.newMessageText = '';
-        this.getMessages(this.selectedFriendId);
-      } else {
-        console.error('Error sending message:', response.status);
-      }
-    },
-    async getMessages(id) {
-      this.selectedFriendId = id;
-      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages/'+id;
-      const headers = {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      };
-      const response = await fetch(url, { headers });
-      if (response.ok) {
-        const json_response = await response.json();
-        if (json_response) {
-          this.messages = json_response
-            .sort((a, b) => a.id - b.id)
-            .map((message) => ({ text: message.content }));
-        } else {
-          console.error('Error: Messages data is missing');
-          console.error(response);
-        }
-      } else {
-        console.error('Error calling API:', response.status);
-      }
-    }
+  components: {
+    FriendList,
+    ChatContainer,
   },
 };
 </script>
 
-
-  
-<style scoped>
+<style>
 .app-container {
   display: flex;
   height: 100vh;
@@ -197,5 +105,3 @@ export default {
   font-weight: bold;
 }
 </style>
-
-  

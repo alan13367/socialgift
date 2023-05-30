@@ -1,4 +1,5 @@
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   name: 'FriendList',
   props: {},
@@ -27,6 +28,9 @@ export default {
       } else {
         console.error('Error calling API:', response.status);
       }
+    },
+    async getMessages(friendId) {
+      emitter.emit('getMessages', friendId);
     },
   },
   mounted() {
