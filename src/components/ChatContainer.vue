@@ -65,6 +65,14 @@ export default {
       }
     },
   },
+  mounted() {
+    // Call getMessages every 5 seconds using setInterval
+    setInterval(() => {
+        if(this.selectedFriendId != ''){
+            this.getMessages(this.selectedFriendId);
+        }
+    }, 5000);
+  },
   created() {
     emitter.on('getMessages', this.getMessages);
   },
