@@ -1,5 +1,4 @@
 <script>
-import emmiter from '@/plugins/emmiter';
 export default {
   name: 'FriendList',
   props: {},

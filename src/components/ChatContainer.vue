@@ -1,5 +1,4 @@
 <script>
-import emmiter from '@/plugins/emmiter';
 export default {
   name: 'ChatContainer',
   props: {},
@@ -9,7 +8,31 @@ export default {
       selectedFriendId: '',
     };
   },
-  methods: {
+  methods: { 
+    async sendMessage() {
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages';
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json',
+      };
+      const data = {
+        content: this.newMessageText,
+        user_id_send: localStorage.getItem('id'),
+        user_id_recived: this.selectedFriendId,
+      };
+      const response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        this.newMessageText = '';
+        this.getMessages(this.selectedFriendId);
+      } else {
+        console.error('Error sending message:', response.status);
+      }
+    },
     async getMessages(id) {
       this.selectedFriendId = id;
       const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/messages/${id}`;
