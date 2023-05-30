@@ -48,7 +48,10 @@ export default {
           if (json_response) {
             this.messages = json_response
               .sort((a, b) => a.id - b.id)
-              .map((message) => ({ text: message.content }));
+              .map((message) => ({ 
+                text: message.content,
+                outgoing: message.user_id_send !== this.selectedFriendId 
+                }));
           } else {
             console.error('Error: Messages data is missing');
             console.error(response);
