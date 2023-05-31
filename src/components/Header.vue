@@ -3,7 +3,7 @@
     <div class="menu">
       <div class="imglogo">
         <router-link to="/">
-          <img src="logo.png" alt="Logo de la empresa" />
+          <img src="logo.png" alt="Logo de la empresa" class="logo-image" />
         </router-link>
       </div>
       <div class="menu-links" v-if="loggedIn">
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="actions" v-if="loggedIn">
-      <button>
+      <button class="campana">
         <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" />
       </button>
       <button @click="logout">
@@ -108,14 +108,22 @@ created() {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    border-bottom: 2px solid black;
+    background-color: white;
   }
 
-  imglogo {
-    display: flex;
-    height: 50px;
-    padding-right: 50px;
-    position: relative;
-  }
+  .imglogo {
+  display: flex;
+  padding-right: 50px;
+  position: relative;
+}
+
+
+.logo-image {
+  height: 100%; /* Set the height to 100% of the parent container */
+  max-height: 70px; /* Optional: Set a maximum height to limit the image size */
+  border-radius: 25%;
+}
 
   .menu {
     display: flex;
@@ -127,9 +135,8 @@ created() {
   .menu-links {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding-left: 10px;
-    width: 80%;
+    width: 70%;
   }
 
   .menu-link {
@@ -150,8 +157,7 @@ created() {
   }
 
   .actions{
-    display: flex;
-    flex-direction: row;
+    padding-right: 10px;
   }
   .actions button {
     border: none;
