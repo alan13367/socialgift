@@ -11,19 +11,23 @@
       <ul>
         <li v-for="result in searchResults" :key="result.id">
           <span>{{ result.name }}</span>
-          <button @click="addToWishlist">Agregar</button>
+          <button @click="addToWishlist(result)">Agregar</button>
         </li>
       </ul>
     </div>
     <div class="gifts">
-      <div v-for="gift in GiftsList" :key="gift.id" class="gift-container">
+      <div v-for="gift in filteredGifts" :key="gift.id" class="gift-container">
         <div class="gift">
           <img :src="gift.photo" alt="Gift image">
           <div class="gift-info">
-            <h3>{{gift.name }}</h3>
+            <h3>{{ gift.name }}</h3>
           </div>
-          <button class="sharebtn" @click="share(gift)"> <img src="src/assets/Imagenes/share.png" alt=""></button>
-          <button class="deletebtn" @click="deleteGift(gift)"> <img src="src/assets/Imagenes/bin.png" alt=""></button>
+          <button class="sharebtn" @click="share(gift)">
+            <img src="src/assets/Imagenes/share.png" alt="">
+          </button>
+          <button class="deletebtn" @click="deleteGift(gift)">
+            <img src="src/assets/Imagenes/bin.png" alt="">
+          </button>
         </div>
       </div>
     </div>
@@ -36,55 +40,60 @@ export default {
     return {
       GiftsList: [],
       searchQuery: '',
-      searchResults: [],
+      searchResults: []
     }
   },
   created() {
-    this.getgiftslist();
+    this.getGiftsList();
   },
   methods: {
-    async getgiftslist() {
-      const wishlist_id = localStorage.getItem('wishlistId');
-      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlist_id}`;
+    async getGiftsList() {
+      const wishlistId = localStorage.getItem('wishlistId');
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlistId}`;
       const headers = {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
-      }
-      const response = await fetch(url, { headers })
-      if (response.ok) {
-        const data = await response.json();
-        this.GiftsList = data.gifts.map(gift => ({
-          id: gift.id,
-          image: gift.product_url,
-          
-        }));
-        this.GiftsList.forEach(async element => {
-          console.log(element);
-           
-            const url = `${element.image}`;
+      };
+
+      try {
+        const response = await fetch(url, { headers });
+
+        if (response.ok) {
+          const data = await response.json();
+          this.GiftsList = data.gifts.map(gift => ({
+            id: gift.id,
+            image: gift.product_url,
+            name: '',
+            photo: ''
+          }));
+
+          await Promise.all(this.GiftsList.map(async gift => {
+            const url = gift.image;
             const headers = {
-              'accept': 'application/json'
+              'Accept': 'application/json'
             };
-            
-            const response = await fetch (url, {
+
+            const response = await fetch(url, {
               method: 'GET',
               headers: headers
             });
-            console.log(response);
+
             if (response.ok) {
               const product = await response.json();
-              console.log(product);
-              element.name = product.name;
-              element.photo = product.photo;
+              gift.name = product.name;
+              gift.photo = product.photo;
             } else {
-              console.error('Error al realizar la búsqueda');
+              console.error('Error retrieving product:', response.status, response.statusText);
             }
-          
-        });
-        console.error('Gifts list:', this.GiftsList);
-      } else {
-        console.error('Error retrieving gifts list:', response.status, response.statusText);
+          }));
+
+          console.log('Gifts list:', this.GiftsList);
+        } else {
+          console.error('Error retrieving gifts list:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error retrieving gifts list:', error);
       }
     },
     async search() {
@@ -95,7 +104,7 @@ export default {
 
       const url = `https://balandrau.salle.url.edu/i3/mercadoexpress/api/v1/products/search?s=${this.searchQuery}`;
       const headers = {
-        'accept': 'application/json'
+        'Accept': 'application/json'
       };
 
       try {
@@ -108,26 +117,75 @@ export default {
           const data = await response.json();
           this.searchResults = data.slice(0, 10);
         } else {
-          console.error('Error al realizar la búsqueda');
+          console.error('Error performing search:', response.status, response.statusText);
         }
       } catch (error) {
-        console.error('Error al realizar la búsqueda:', error);
+        console.error('Error performing search:', error);
       }
     },
     async addToWishlist(result) {
-      console.log('Add to wishlist:', product);
+      const wishlistId = localStorage.getItem('wishlistId');
+      const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts';
+      const headers = {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      };
+      const data = {
+        wishlist_id: wishlistId,
+        product_url: result.url,
+        priority: 33
+      };
 
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(data)
+        });
 
+        if (response.ok) {
+          console.log('Gift added to wishlist:', result);
+          this.getGiftsList();
+        } else {
+          console.error('Error adding gift to wishlist:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error adding gift to wishlist:', error);
+      }
     },
-  },
+    async deleteGift(gift) {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts/${gift.id}`;
+      const headers = {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      };
 
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: headers
+        });
+
+        if (response.ok) {
+          this.getGiftsList();
+        } else {
+          console.error('Error deleting gift:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error deleting gift:', error);
+      }
+    }
+  },
   computed: {
     filteredGifts() {
-      return this.gifts.filter(gift => gift.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
-    },
-  },
-} 
+      return this.GiftsList.filter(gift => gift.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    }
+  }
+}
 </script>
+
+
   
 <style>
 .gift-list {

@@ -9,7 +9,7 @@
     </div>
     <div class="wishlists">
       <div class="wishlist-row" v-for="(chunk, index) in chunkedWishlists" :key="index">
-        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container">
+        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id)">
           <router-link :to="'/wishlist'" class="wishlist">
             <h3>{{ wishlist.name }}</h3>
           </router-link>
@@ -20,20 +20,27 @@
 </template>
 
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
       wishlists: [],
-      searchQuery: '',
-      
+      searchQuery: ''
     }
-  },beforeMount() {
-    this.getFriendsWishLists();
-    
   },
+  created() {
+    this.getFriendsWishLists()
+  },
+  
   methods: {
+    selectWishlist(id) {
+      this.selectedWishlistId = id;
+      emmiter.emit('wishlistSelected', id);
+      localStorage.setItem('wishlistId', id);
+      console.error("El id es",id)
+    },
     search() {
-      // Add search logic here
+      
     },
     chunkArray(array, chunkSize) {
       let chunks = []
@@ -98,12 +105,7 @@ export default {
       return this.chunkArray(this.filteredWishlists, 3)
     },
   },
-  created() {
-    // Replace this with code to fetch wishlists from your backend
-    this.wishlists = [
-      
-    ]
-  },
+  
 }
 </script>
 
