@@ -10,11 +10,12 @@
     <div class="gifts">
       <div v-for="gift in filteredGifts" :key="gift.id" class="gift-container">
         <div class="gift">
-          <img :src="gift.image" alt="Gift image">
+          <img :src="gift.photo" alt="Gift image">
           <div class="gift-info">
             <h3>{{ gift.name }}</h3>
           </div>
-          <button class="giftbutton" @click="giftIt(gift)">Gift it</button>
+          <button v-if="gift.booked === 0" class="giftbutton" @click="giftIt(gift)">Gift it</button>
+          <p v-else class="reserved-text">Reservado</p>
         </div>
         <div class="gift-details" v-show="gift.showDetails">
           <p>Description: {{ gift.description }}</p>
@@ -56,7 +57,8 @@ export default {
             id: gift.id,
             image: gift.product_url,
             name: '',
-            photo: ''
+            photo: '',
+            booked: gift.booked
           }));
 
           await Promise.all(this.GiftsList.map(async gift => {
@@ -87,14 +89,37 @@ export default {
         console.error('Error retrieving gifts list:', error);
       }
     },
+    async giftIt(gift) {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts/${gift.id}/book`;
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: headers
+        });
+
+        if (response.ok) {
+          console.log('Gift booked successfully:', gift.id);
+
+        } else {
+          console.error('Error booking gift:', response.status, response.statusText);
+
+        }
+      }
+      catch (error) {
+        console.error('Error booking gift:', error);
+
+      }
+    },
     async search() {
-      
+
     },
-    async addToWishlist(result) {
-      
-    },
-    async deleteGift(gift) {
-      
+    async deletereserved(gift) {
+
     }
   },
   computed: {
@@ -106,63 +131,73 @@ export default {
 </script>
 
   
-  <style scoped>
-  .gift-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .search-bar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-  }
-  .gifts {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 80%; 
-  }
-  .gift-container {
-    margin: 10px; 
-  }
-  .gift {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #A33DA5;
-    color: white;
-    border-radius: 5px;
-    width: 100%; 
-  }
-  .gift img {
-    width: 80px;
-    height: 80px;
-    margin-right: 10px;
-    padding: 10px;
-  }
-  .gift-info {
-    flex-grow: 1; 
-  }
-  .gift-info h3 {
-    margin: 0;
-  }
+<style scoped>
+.gift-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .title-search{
+.search-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.gifts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+}
+
+.gift-container {
+  margin: 10px;
+}
+
+.gift {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #A33DA5;
+  color: white;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.gift img {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.gift-info {
+  flex-grow: 1;
+}
+
+.gift-info h3 {
+  margin: 0;
+}
+
+.title-search {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 80%;
 }
-.giftbutton{
+
+.giftbutton {
   background-color: #7C3AED;
-  padding-right:10px;
+  padding-right: 10px;
 }
 
-.search-button{
-  background-color:#A33DA5;
+.search-button {
+  background-color: #A33DA5;
 }
 
-  
-  </style>
+.reserved-text {
+  color: red;
+  font-weight: bold;
+}</style>
   

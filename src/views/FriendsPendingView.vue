@@ -5,7 +5,9 @@
   </div>
   <div class="container">
     <div class="left-container">
-      <h3>Solicitudes pendientes</h3>
+      <div class="section-header">
+        <h3>Solicitudes pendientes</h3>
+      </div>
       <div v-for="item in leftItems" :key="item.id" class="item">
         <button @click="acceptFriendRequest(item.id)">Aceptar Amistad</button>
         <img class="imgfriends" src="@/assets/Imagenes/friends.png" alt="friends">
@@ -13,10 +15,15 @@
       </div>
     </div>
     <div class="right-container">
-      <h3>Resultados de busqueda:</h3>
-      <div v-for="item in rightItems" :key="item.id" class="item">
-        <button @click="sendFriendRequest(item.id)">Solicitar amistad</button>
-        <p>{{ item.name }}</p>
+      <div class="section-header">
+        <h3>Resultados de búsqueda:</h3>
+      </div>
+      <div class="scroll-container">
+        <div v-for="item in rightItems" :key="item.id" class="item">
+          <button @click="sendFriendRequest(item.id)">Solicitar amistad</button>
+          <button @click="viewProfile(item.id)">Ver perfil</button>
+          <p>{{ item.name }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -116,6 +123,10 @@ export default {
         })
         .catch(error => console.log(error));
     },
+    viewProfile(id) {
+      localStorage.setItem('idfriend', id);
+      this.$router.push({ path: '/UserProfile' });
+    },
     acceptFriendRequest(id) {
       fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends/${id}`, {
         method: 'PUT',
@@ -159,6 +170,16 @@ export default {
   z-index: 1;
 }
 
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.section-header h3 {
+  margin: 0;
+}
+
 .left-container {
   width: 40%;
   height: 60%;
@@ -176,6 +197,12 @@ export default {
   justify-content: center;
   align-items: flex-start;
   margin-left: 32px;
+}
+
+.scroll-container {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .item {

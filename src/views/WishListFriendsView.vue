@@ -9,7 +9,7 @@
     </div>
     <div class="wishlists">
       <div class="wishlist-row" v-for="(chunk, index) in chunkedWishlists" :key="index">
-        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id)">
+        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id,item.user_id)">
           <router-link :to="'/wishlist'" class="wishlist">
             <h3>{{ wishlist.name }}</h3>
           </router-link>
@@ -33,9 +33,10 @@ export default {
   },
   
   methods: {
-    selectWishlist(id) {
+    selectWishlist(id,idfriend) {
       this.selectedWishlistId = id;
       emmiter.emit('wishlistSelected', id);
+      localStorage.setItem('idfriend', idfriend);
       localStorage.setItem('wishlistId', id);
       console.error("El id es",id)
     },
@@ -50,7 +51,6 @@ export default {
       return chunks
     },
     async getFriendsWishLists() {
-      console.log("pasa")
       const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends`;
       const headers = {
         'accept': 'application/json',
@@ -62,17 +62,14 @@ export default {
         const json_response = await response.json();
         if (json_response) {
           let friends = json_response.map(item => item.id);
-          const id = localStorage.getItem('id');
+          const id = localStorage.getItem('idfriends');
           const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists`;
           const headers = {
             'accept': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Content-Type': 'application/json'
-           }
-          console.log("inicio segunda llamada fetch")
+          };
           const response = await fetch(url, { headers })
-          
-          console.log("fin segunda llamada fetch")
           if (response.ok) {
             const json_response = await response.json()
             console.log(json_response)

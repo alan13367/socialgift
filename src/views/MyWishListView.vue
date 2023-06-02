@@ -1,7 +1,12 @@
 <template>
   <div class="gift-list">
+    <h2 class="wishlist_name">{{ wishlistName }}</h2>
+    <h3 class="description">{{ wishlistdescription }}</h3>
     <div class="title-search">
-      <h1>My Wishlist</h1>
+      <div class="wishlist-actions">
+        <button class="delete-wishlist-button" @click="confirmDelete">Eliminar lista</button>
+        <button class="edit-wishlist-button" @click="editWishlist">Editar lista</button>
+      </div>
     </div>
     <div class="search-bar">
       <input type="text" v-model="searchQuery" placeholder="Search for gifts...">
@@ -31,6 +36,34 @@
         </div>
       </div>
     </div>
+    <div class="modal" v-if="showConfirmationModal">
+      <div class="modal-content">
+        <p v-if="!showError">¿Realmente desea eliminar esta lista?</p>
+        <p v-if="showError">{{ errorMessage }}</p>
+        <div class="modal-actions">
+          <button class="modal-button yes" @click="deleteWishlist" v-if="!showError">Sí</button>
+          <button class="modal-button yes" @click="redirectToMyWishlists" v-if="showError">Aceptar</button>
+          <button class="modal-button no" @click="cancelDelete">No</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal" v-if="showEditForm">
+      <div class="modal-content">
+        <h2>Editar lista</h2>
+        <form @submit.prevent="updateWishlist">
+          <label for="name">Nombre:</label>
+          <input type="text" id="name" v-model="editForm.name" required>
+          <label for="description">Descripción:</label>
+          <input type="text" id="description" v-model="editForm.description" required>
+          <label for="end_date">Fecha de finalización:</label>
+          <input type="date" id="end_date" v-model="editForm.end_date" required>
+          <div class="modal-actions">
+            <button class="modal-button accept" type="submit">Aceptar</button>
+            <button class="modal-button cancel" @click="cancelEdit">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,7 +73,17 @@ export default {
     return {
       GiftsList: [],
       searchQuery: '',
-      searchResults: []
+      searchResults: [],
+      showConfirmationModal: false,
+      showEditForm: false,
+      editForm: {
+        name: '',
+        description: '',
+        end_date: ''
+      },
+      errorMessage: '',
+      showError: false
+
     }
   },
   created() {
@@ -58,9 +101,11 @@ export default {
 
       try {
         const response = await fetch(url, { headers });
-
+        console.error("response", response)
         if (response.ok) {
           const data = await response.json();
+          this.wishlistName = data.name;
+          this.wishlistdescription = data.description;
           this.GiftsList = data.gifts.map(gift => ({
             id: gift.id,
             image: gift.product_url,
@@ -116,6 +161,7 @@ export default {
         if (response.ok) {
           const data = await response.json();
           this.searchResults = data.slice(0, 10);
+          console.error('Search results:', this.searchResults);
         } else {
           console.error('Error performing search:', response.status, response.statusText);
         }
@@ -133,7 +179,7 @@ export default {
       };
       const data = {
         wishlist_id: wishlistId,
-        product_url: result.url,
+        product_url: `https://balandrau.salle.url.edu/i3/mercadoexpress/api/v1/products/${result.id}`,
         priority: 33
       };
 
@@ -175,6 +221,89 @@ export default {
       } catch (error) {
         console.error('Error deleting gift:', error);
       }
+    },
+    confirmDelete() {
+      this.showConfirmationModal = true;
+    },
+    cancelDelete() {
+      this.showConfirmationModal = false;
+    },
+    async deleteWishlist() {
+      const wishlistId = localStorage.getItem('wishlistId');
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlistId}`;
+      const headers = {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: headers,
+        });
+
+        if (response.ok) {
+          this.showConfirmationModal = false;
+          this.$router.push('/mywishlists');
+        } else if (response.status === 500) {
+          this.showError = true;
+          this.errorMessage = 'La lista tiene regalos asociados. Elimínelos y luego elimine la lista.';
+        } else {
+          console.error('Error deleting wishlist:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error deleting wishlist:', error);
+      }
+    },
+    editWishlist() {
+      this.editForm.name = '';
+      this.editForm.description = '';
+      this.editForm.end_date = '';
+      this.showEditForm = true;
+    },
+    cancelEdit() {
+      this.showEditForm = false;
+    },
+    async updateWishlist() {
+      const wishlistId = localStorage.getItem('wishlistId');
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlistId}`;
+      const headers = {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      };
+      const data = {
+        id: wishlistId,
+        name: this.editForm.name,
+        description: this.editForm.description,
+        end_date: this.editForm.end_date
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: 'PUT',
+          headers: headers,
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          const wishlistIndex = this.GiftsList.findIndex(wishlist => wishlist.id === wishlistId);
+          if (wishlistIndex !== -1) {
+            this.GiftsList[wishlistIndex].name = updatedWishlist.name;
+            this.GiftsList[wishlistIndex].description = updatedWishlist.description;
+            this.GiftsList[wishlistIndex].end_date = updatedWishlist.end_date;
+          }
+          this.showEditForm = false;
+        } else {
+          console.error('Error updating wishlist');
+        }
+      } catch (error) {
+        console.error('Error updating wishlist', error);
+      }
+    },
+    redirectToMyWishlists() {
+      this.showError = false;
+      this.$router.push('/mywishlists');
     }
   },
   computed: {
@@ -186,12 +315,23 @@ export default {
 </script>
 
 
-  
 <style>
+.wishlist_name {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 20px;
+  margin-top: 10px;
+  color: aqua;
+  text-align: left;
+}
 .gift-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .search-bar {
@@ -271,9 +411,9 @@ export default {
   height: 30px;
 }
 
-.search-results {
+search-results {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   left: 0;
   width: 100%;
   background-color: #fff;
@@ -296,5 +436,59 @@ export default {
 .search-results button {
   margin-left: 10px;
 }
+
+.wishlist-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.wishlist-actions button {
+  margin-left: 10px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.modal p {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+}
+
+.modal-button.yes {
+  background-color: #A33DA5;
+  color: #fff;
+}
+
+.modal-button.no {
+  background-color: #ccc;
+  color: #000;
+}
 </style>
-  
