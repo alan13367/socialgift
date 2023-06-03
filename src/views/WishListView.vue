@@ -14,8 +14,10 @@
           <div class="gift-info">
             <h3>{{ gift.name }}</h3>
           </div>
-          <button v-if="gift.booked === 0" class="giftbutton" @click="giftIt(gift)">Gift it</button>
+          <div class="buttons">
+            <button v-if="gift.booked === 0" class="giftbutton" @click="giftIt(gift)">Reservar</button>
           <p v-else class="reserved-text">Reservado</p>
+          </div>
         </div>
         <div class="gift-details" v-show="gift.showDetails">
           <p>Description: {{ gift.description }}</p>
@@ -204,8 +206,15 @@ export default {
 }
 
 .reserved-text {
-  color: red;
+  color: black;
   font-weight: bold;
+  background-color: red;
+  padding: 10px;
+  border-radius: 15%;
+}
+
+.buttons{
+  padding-right:10px ;
 }
 </style>
   

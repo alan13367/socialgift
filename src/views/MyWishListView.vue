@@ -329,7 +329,7 @@ export default {
 .description {
   font-size: 20px;
   margin-top: 10px;
-  color: aqua;
+  color: black;
   text-align: left;
 }
 .gift-list {
