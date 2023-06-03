@@ -196,7 +196,4 @@ created() {
   height: 40px;
   flex-grow: 1; 
 }
-
-
-
 </style>

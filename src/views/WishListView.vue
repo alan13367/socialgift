@@ -154,6 +154,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 80%;
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 .gift-container {
