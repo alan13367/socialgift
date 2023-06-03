@@ -350,7 +350,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 80%;
-  max-height: 350px;
+  max-height: 450px;
   overflow-y: auto;
   margin-top: 20px;
 }

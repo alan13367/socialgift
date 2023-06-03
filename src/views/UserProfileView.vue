@@ -1,38 +1,28 @@
 <script>
-function isPageOpenedWithEmitter() {
-  // Assuming emitter is a global object available in the context
-  return typeof emitter !== 'undefined';
-}
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
-      loggedInUser: localStorage.getItem("id"),
       profileId: null,
       profileData: null,
       wishlists: [],
       chunkedWishlists: [],
-      showConfirmationDialog: false
+      showConfirmationDialog: false,
+      ProfileView: null,
     };
   },
   mounted() {
-  if (isPageOpenedWithEmitter()) {
-    emitter.on('ProfileView', (id) => {
-      console.log("emitter");
-      this.profileId = id;
-      this.fetchProfileData();
-      this.getWishlists();
+    emmiter.on('ProfileView', (ProfileView) => {
+      
+      this.fetchProfileData(ProfileView);
+      this.getWishlists(ProfileView);
     });
-  } else {
-    // Alternative code when the page is not opened with an emitter
-    console.log("sin emitter");
-    this.profileId =this.loggedInUser;
-    this.fetchProfileData();
-    this.getWishlists();
-  }
-},
+    
+    
+  },
   methods: {
-    fetchProfileData() {
-      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${this.profileId}`;
+    fetchProfileData(id) {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}`;
       fetch(url, {
         method: "GET",
         headers: {
@@ -42,17 +32,18 @@ export default {
       })
         .then(response => {
           return response.json();
+           
         })
         .then(data => {
-          this.profileData = data;
           console.log(data);
+          console.log(url);
+          this.profileData = data;
         })
         .catch(error => {
           console.error(error);
         });
     },
-    async getWishlists() {
-      const id = localStorage.getItem('id');
+    async getWishlists(id) {
       const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}/wishlists`;
       const headers = {
         'accept': 'application/json',
@@ -130,8 +121,8 @@ export default {
     <div class="user-info">
       <img :src="profileData && profileData.image" alt="Foto de perfil" class="user-image" />
       <h3 class="user-name">{{ profileData && profileData.name }} {{ profileData && profileData.last_name }}</h3>
-      <button v-if="id !== profileData?.id" @click="sendFriendRequest">Enviar solicitud de amistad</button>
-      <button v-if="id == profileData?.id" @click="showDeleteConfirmation">Borrar usuario</button>
+      <button v-if="profileData && id == profileData.id" @click="sendFriendRequest">Enviar solicitud de amistad</button>
+      <button v-if="id !== profileData?.id" @click="showDeleteConfirmation">Borrar usuario</button>
     </div>
     <div class="wishlist">
       <h4>WishList</h4>

@@ -22,7 +22,7 @@
         <router-link to="/FriendsPending" class="menu-link">
           Solicitudes amigos
         </router-link>
-        <router-link to="/UserProfile" class="menu-link">
+        <router-link to="/UserProfile" class="menu-link" @click="getprofile">
           Perfil
         </router-link>
       </div>
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-
 import emmiter from '@/plugins/emmiter';
 export default {
   
@@ -79,6 +78,10 @@ created() {
       this.$router.push('/');
       
     },
+    getprofile(){
+      this.idFriend = localStorage.getItem('id');
+      emmiter.emit('ProfileView', this.idFriend);
+    }
   },
 
 };

@@ -30,12 +30,14 @@
 </template>
 
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
       searchQuery: '',
       leftItems: [],
       rightItems: [],
+      ProfileView: null,
     }
   },
   created() {
@@ -124,7 +126,8 @@ export default {
         .catch(error => console.log(error));
     },
     viewProfile(id) {
-      emitter.emit('ProfileView', id);
+      localStorage.setItem('ProfileView', id);
+      emmiter.emit('ProfileView', id);
       this.$router.push({ path: '/UserProfile' });
     },
     acceptFriendRequest(id) {
