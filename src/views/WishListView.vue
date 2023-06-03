@@ -27,21 +27,25 @@
 </template>
 
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
+      props: {},
       GiftsList: [],
       searchQuery: '',
       searchResults: []
     }
   },
   created() {
-    this.getGiftsList();
+    emmiter.on('wishlistSelected', (wishlistid) => {
+      this.getGiftsList(wishlistid);
+    });
   },
   methods: {
-    async getGiftsList() {
-      const wishlistId = localStorage.getItem('wishlistId');
-      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlistId}`;
+
+    async getGiftsList(id) {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${id}`;
       const headers = {
         'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -58,7 +62,8 @@ export default {
             image: gift.product_url,
             name: '',
             photo: '',
-            booked: gift.booked
+            booked: gift.booked,
+
           }));
 
           await Promise.all(this.GiftsList.map(async gift => {
@@ -199,5 +204,6 @@ export default {
 .reserved-text {
   color: red;
   font-weight: bold;
-}</style>
+}
+</style>
   

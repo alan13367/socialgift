@@ -17,8 +17,6 @@ export default {
     fetchProfileData() {
       const id = localStorage.getItem("idfriend");
       const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${this.id}`;
-
-
       fetch(url, {
         method: "GET",
         headers: {

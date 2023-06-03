@@ -17,8 +17,6 @@
 
 
 <script>
-import { registerRuntimeHelpers } from '@vue/compiler-core';
-
 export default {
   name: 'ChatContainer',
   props: {},

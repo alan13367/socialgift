@@ -9,7 +9,7 @@
     </div>
     <div class="wishlists">
       <div class="wishlist-row" v-for="(chunk, index) in chunkedWishlists" :key="index">
-        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id,item.user_id)">
+        <div v-for="wishlist in chunk" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id)">
           <router-link :to="'/wishlist'" class="wishlist">
             <h3>{{ wishlist.name }}</h3>
           </router-link>
@@ -24,6 +24,7 @@ import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
+      props: {},
       wishlists: [],
       searchQuery: ''
     }
@@ -33,12 +34,9 @@ export default {
   },
   
   methods: {
-    selectWishlist(id,idfriend) {
-      this.selectedWishlistId = id;
-      emmiter.emit('wishlistSelected', id);
-      localStorage.setItem('idfriend', idfriend);
-      localStorage.setItem('wishlistId', id);
-      console.error("El id es",id)
+    selectWishlist(wishlistid){
+      this.selectedWishlistId = wishlistid;
+      emmiter.emit('wishlistSelected', wishlistid);
     },
     search() {
       
@@ -72,15 +70,12 @@ export default {
           const response = await fetch(url, { headers })
           if (response.ok) {
             const json_response = await response.json()
-            console.log(json_response)
             if (json_response) {
               let allWishlists = json_response
               this.wishlists = allWishlists.filter(item => friends.includes(item.user_id))
               this.chunkedWishlists = this.chunkArray(this.wishlists, 3)
-              console.error(this.wishlists)
             } else {
               console.error('Error: Wishlists data is missing')
-              console.error(response)
             }
           } else {
             console.error('Error calling API:', response.status)

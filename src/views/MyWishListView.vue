@@ -1,8 +1,9 @@
 <template>
   <div class="gift-list">
     <h2 class="wishlist_name">{{ wishlistName }}</h2>
-    <h3 class="description">{{ wishlistdescription }}</h3>
     <div class="title-search">
+      
+      <h3 class="description">{{ wishlistdescription }}</h3>
       <div class="wishlist-actions">
         <button class="delete-wishlist-button" @click="confirmDelete">Eliminar lista</button>
         <button class="edit-wishlist-button" @click="editWishlist">Editar lista</button>
@@ -68,6 +69,7 @@
 </template>
 
 <script>
+import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
@@ -87,12 +89,13 @@ export default {
     }
   },
   created() {
-    this.getGiftsList();
+    emmiter.on('wishlistSelected', (wishlistid) => {
+      this.getGiftsList(wishlistid);
+    });
   },
   methods: {
-    async getGiftsList() {
-      const wishlistId = localStorage.getItem('wishlistId');
-      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${wishlistId}`;
+    async getGiftsList(id) {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists/${id}`;
       const headers = {
         'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -103,6 +106,7 @@ export default {
         const response = await fetch(url, { headers });
         console.error("response", response)
         if (response.ok) {
+          localStorage.setItem('wishlistId', id);
           const data = await response.json();
           this.wishlistName = data.name;
           this.wishlistdescription = data.description;
@@ -170,7 +174,7 @@ export default {
       }
     },
     async addToWishlist(result) {
-      const wishlistId = localStorage.getItem('wishlistId');
+      const wishlistId1 = localStorage.getItem('wishlistId');
       const url = 'https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts';
       const headers = {
         'Accept': 'application/json',
@@ -178,7 +182,7 @@ export default {
         'Content-Type': 'application/json'
       };
       const data = {
-        wishlist_id: wishlistId,
+        wishlist_id: wishlistId1,
         product_url: `https://balandrau.salle.url.edu/i3/mercadoexpress/api/v1/products/${result.id}`,
         priority: 33
       };
@@ -192,9 +196,10 @@ export default {
 
         if (response.ok) {
           console.log('Gift added to wishlist:', result);
-          this.getGiftsList();
+          this.getGiftsList(wishlistId1);
         } else {
-          console.error('Error adding gift to wishlist:', response.status, response.statusText);
+          console.error('Error adding gift:', response.status, response.statusText);
+          console.error('Data es:', data);
         }
       } catch (error) {
         console.error('Error adding gift to wishlist:', error);
@@ -214,7 +219,8 @@ export default {
         });
 
         if (response.ok) {
-          this.getGiftsList();
+          const id = localStorage.getItem('wishlistId');
+          this.getGiftsList(id);
         } else {
           console.error('Error deleting gift:', response.status, response.statusText);
         }
@@ -294,6 +300,7 @@ export default {
             this.GiftsList[wishlistIndex].end_date = updatedWishlist.end_date;
           }
           this.showEditForm = false;
+          this.getGiftsList(wishlistId);
         } else {
           console.error('Error updating wishlist');
         }

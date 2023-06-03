@@ -56,10 +56,9 @@ export default {
     
   },
   methods: {
-    selectWishlist(id) {
-      this.selectedWishlistId = id;
-      emitter.emit('wishlistSelected', id);
-      localStorage.setItem('wishlistId', id);
+    selectWishlist(wishlistId) {
+      
+      emmiter.emit('wishlistSelected', wishlistId);
     },
     async submitCreateForm() {
       const url =
