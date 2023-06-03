@@ -56,25 +56,7 @@ main {
   height: 100%;
 }
 
-.menu-button {
-  display: none;
-}
 
-.menu {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.menu ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-.menu li {
-  margin-left: 10px;
-}
 
 @media (max-width: 600px) {
   main {

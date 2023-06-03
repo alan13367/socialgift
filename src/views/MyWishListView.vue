@@ -15,7 +15,7 @@
     </div>
     <div id="searchResults" class="search-results" v-show="searchResults.length > 0">
       <ul>
-        <li v-for="result in searchResults" :key="result.id">
+        <li class="search-resultsli" v-for="result in searchResults" :key="result.id">
           <span>{{ result.name }}</span>
           <button @click="addToWishlist(result)">Agregar</button>
         </li>
@@ -319,7 +319,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .wishlist_name {
   font-size: 30px;
   font-weight: bold;
@@ -350,10 +350,14 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 80%;
+  max-height: 350px;
+  overflow-y: auto;
+  margin-top: 20px;
 }
 
 .gift-container {
   margin: 10px;
+  
 }
 
 .gift {
@@ -367,8 +371,8 @@ export default {
 }
 
 .gift img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   margin-right: 10px;
   padding: 10px;
 }
@@ -431,6 +435,8 @@ search-results {
   list-style: none;
   padding: 0;
   margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .search-results li {
@@ -496,3 +502,4 @@ search-results {
   color: #000;
 }
 </style>
+

@@ -101,6 +101,7 @@ created() {
     z-index: 1;
     overflow-x: hidden;
     height: 10%;
+    display: flex;
   }
 
   nav {
@@ -116,13 +117,15 @@ created() {
   display: flex;
   padding-right: 50px;
   position: relative;
+  display: flex;
 }
 
 
 .logo-image {
-  height: 100%; /* Set the height to 100% of the parent container */
-  max-height: 70px; /* Optional: Set a maximum height to limit the image size */
+  height: 100%;
+  max-height: 70px;
   border-radius: 25%;
+  display: flex;
 }
 
   .menu {
@@ -140,6 +143,7 @@ created() {
   }
 
   .menu-link {
+    display: flex;
     font-family: 'Inter';
     font-style: semibold;
     font-weight: 100;
@@ -154,12 +158,15 @@ created() {
   .menu-link:focus {
     border-bottom: 2px solid #A33DA5;
     color: #A33DA5;
+    display: flex;
   }
 
   .actions{
     padding-right: 10px;
+    display: flex;
   }
   .actions button {
+    display: flex;
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -169,12 +176,14 @@ created() {
   }
 
   .actions button img {
+    display: flex;
     height: 25px;
   }
 
 
 
 .authbutton {
+  display: flex;
   font-family: 'Inter';
   font-weight: 100;
   font-size: 15px;
@@ -185,7 +194,7 @@ created() {
   color: white;
   width: 80px ; 
   height: 40px;
-  flex-grow: 1; /* Crece si hay espacio disponible */
+  flex-grow: 1; 
 }
 
 
