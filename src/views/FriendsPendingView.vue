@@ -124,7 +124,7 @@ export default {
         .catch(error => console.log(error));
     },
     viewProfile(id) {
-      localStorage.setItem('idfriend', id);
+      emitter.emit('ProfileView', id);
       this.$router.push({ path: '/UserProfile' });
     },
     acceptFriendRequest(id) {

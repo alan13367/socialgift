@@ -1,22 +1,38 @@
 <script>
+function isPageOpenedWithEmitter() {
+  // Assuming emitter is a global object available in the context
+  return typeof emitter !== 'undefined';
+}
 export default {
   data() {
     return {
-      id: localStorage.getItem("id"),
+      loggedInUser: localStorage.getItem("id"),
+      profileId: null,
       profileData: null,
       wishlists: [],
       chunkedWishlists: [],
-      showConfirmationDialog: false,
+      showConfirmationDialog: false
     };
   },
   mounted() {
+  if (isPageOpenedWithEmitter()) {
+    emitter.on('ProfileView', (id) => {
+      console.log("emitter");
+      this.profileId = id;
+      this.fetchProfileData();
+      this.getWishlists();
+    });
+  } else {
+    // Alternative code when the page is not opened with an emitter
+    console.log("sin emitter");
+    this.profileId =this.loggedInUser;
     this.fetchProfileData();
     this.getWishlists();
-  },
+  }
+},
   methods: {
     fetchProfileData() {
-      const id = localStorage.getItem("idfriend");
-      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${this.id}`;
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${this.profileId}`;
       fetch(url, {
         method: "GET",
         headers: {
@@ -25,11 +41,11 @@ export default {
         },
       })
         .then(response => {
-          console.error(response);
           return response.json();
         })
         .then(data => {
           this.profileData = data;
+          console.log(data);
         })
         .catch(error => {
           console.error(error);
@@ -50,10 +66,9 @@ export default {
         if (json_response) {
           this.wishlists = json_response
           this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
-          console.error(this.wishlists)
+          console.log(this.wishlists)
         } else {
           console.error('Error: Wishlists data is missing')
-          console.error(response)
         }
       } else {
         console.error('Error calling API:', response.status)
