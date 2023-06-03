@@ -188,4 +188,6 @@ created() {
   flex-grow: 1; /* Crece si hay espacio disponible */
 }
 
+
+
 </style>

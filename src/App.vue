@@ -55,4 +55,73 @@ main {
   width: 100%;
   height: 100%;
 }
+
+.menu-button {
+  display: none;
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.menu li {
+  margin-left: 10px;
+}
+
+@media (max-width: 600px) {
+  main {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .background {
+    position: static;
+  }
+
+  .background img {
+    object-fit: contain;
+  }
+
+
+  .menu-button {
+    display: block;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+  }
+
+  .menu-open {
+    display: block;
+  }
+
+  .menu ul {
+    flex-direction: column;
+  }
+
+  .menu li {
+    margin: 5px 0;
+  }
+}
+
+
 </style>

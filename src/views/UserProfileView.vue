@@ -88,6 +88,7 @@ export default {
         .then(response => {
           if (response.status === 204) {
             console.log('Usuario borrado');
+            this.$router.push({ name: 'Login' });
           } else {
             console.log('Error al borrar el usuario');
           }
