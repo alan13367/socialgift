@@ -89,8 +89,9 @@ export default {
     }
   },
   created() {
-    emmiter.on('wishlistSelected', (wishlistid) => {
-      this.getGiftsList(wishlistid);
+    emmiter.on('wishlistSelected', (wishlistId) => {
+      this.getGiftsList(wishlistId);
+      localStorage.setItem('wishlistId', this.wishlistId);
     });
   },
   methods: {
@@ -104,7 +105,6 @@ export default {
 
       try {
         const response = await fetch(url, { headers });
-        console.error("response", response)
         if (response.ok) {
           localStorage.setItem('wishlistId', id);
           const data = await response.json();
@@ -165,7 +165,6 @@ export default {
         if (response.ok) {
           const data = await response.json();
           this.searchResults = data.slice(0, 10);
-          console.error('Search results:', this.searchResults);
         } else {
           console.error('Error performing search:', response.status, response.statusText);
         }
@@ -195,11 +194,9 @@ export default {
         });
 
         if (response.ok) {
-          console.log('Gift added to wishlist:', result);
           this.getGiftsList(wishlistId1);
         } else {
           console.error('Error adding gift:', response.status, response.statusText);
-          console.error('Data es:', data);
         }
       } catch (error) {
         console.error('Error adding gift to wishlist:', error);
