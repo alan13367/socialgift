@@ -6,7 +6,7 @@
           <img src="logo.png" alt="Logo de la empresa" class="logo-image" />
         </router-link>
       </div>
-      <div class="menu-links" v-if="loggedIn">
+      <div class="menu-links" v-if="loggedIn && !mediaQueryTriggered">
         <router-link to="/mywishlists" class="menu-link">
           Mis Listas
         </router-link>
@@ -28,9 +28,6 @@
       </div>
     </div>
     <div class="actions" v-if="loggedIn">
-      <button class="campana">
-        <img src="@/assets/Imagenes/alertsicon.png" alt="Boton Alertas" />
-      </button>
       <button @click="logout">
         <img src="@/assets/Imagenes/logoff.png" alt="Cerrar Sesion" />
       </button>
@@ -53,22 +50,25 @@ export default {
   data() {
     return {
       loggedIn: false,
+      mediaQueryTriggered: false
       };
   },
-created() {
+  created() {
     emmiter.on('loggedIn', (value) => {
       this.loggedIn = value;
     });
+
+    window.addEventListener('resize', this.checkMediaQuery);
+    this.checkMediaQuery();
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.checkMediaQuery);
   },
   mounted() {
-    
     if (localStorage.loggedIn !== undefined) {
       this.loggedIn = !!localStorage.loggedIn;
       this.loggedIn = localStorage.loggedIn === 'true';
-    
-  
     }
-  
   },
   
   methods: {
@@ -81,9 +81,17 @@ created() {
     getprofile(){
       this.idFriend = localStorage.getItem('id');
       emmiter.emit('ProfileView', this.idFriend);
+    },
+    checkMediaQuery() {
+      // Check the media query condition here
+      // For example, using window.matchMedia
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        this.mediaQueryTriggered = true;
+      } else {
+        this.mediaQueryTriggered = false;
+      }
     }
-  },
-
+  }
 };
 </script>
 
@@ -198,5 +206,15 @@ created() {
   width: 80px ; 
   height: 40px;
   flex-grow: 1; 
+}
+
+@media (max-width: 767px) {
+  .menu {
+    width: 30%;
+  }
+
+  .actions{
+    width: 20%;
+  }
 }
 </style>

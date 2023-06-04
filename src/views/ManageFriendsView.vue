@@ -165,4 +165,15 @@ button {
   border-radius: 8px;
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+  .search-bar {
+    width: 70%;
+  }
+
+  .friend-list{
+    width: 80%;
+  }
+
+}
 </style>

@@ -275,4 +275,16 @@ button:hover {
   margin: 0;
   margin-left: 10px;
 }
+
+@media (max-width: 767px) {
+  .search-bar {
+    width: 70%;
+  }
+  .right-container{
+    width: 80%;
+  }
+  .left-container{
+    width: 80%;
+  }
+}
 </style>

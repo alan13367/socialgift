@@ -180,15 +180,4 @@ export default {
   margin-bottom: 10px;
 }
 
-@media (min-width: 768px) {
-  .wishlist-container {
-    width: 50%;
-  }
-}
-
-@media (min-width: 992px) {
-  .wishlist-container {
-    width: 33.33%;
-  }
-}
 </style>

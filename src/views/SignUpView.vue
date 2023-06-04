@@ -180,9 +180,9 @@ export default {
   display: block;
 }
 
-@media screen and (min-width: 768px) {
+@media (max-width: 767px) {
   .login-form {
-    max-width: 500px;
+    width: 50%;
   }
 }
 </style>

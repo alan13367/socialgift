@@ -213,4 +213,10 @@ main {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
 }
+
+@media (max-width: 767px) {
+  .user-info{
+    width: 80%;
+  }
+}
 </style>
