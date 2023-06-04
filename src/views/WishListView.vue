@@ -16,7 +16,7 @@
           </div>
           <div class="buttons">
             <button v-if="gift.booked === 0" class="giftbutton" @click="giftIt(gift)">Reservar</button>
-          <p v-else class="reserved-text">Reservado</p>
+          <button v-else class="reserved-text" @click="deletereserved(gift)">Reservado</button>
           </div>
         </div>
         <div class="gift-details" v-show="gift.showDetails">
@@ -25,6 +25,9 @@
         </div>
       </div>
     </div>
+    <b-modal v-model="showConfirmationDialog" title="Confirmación" ok-title="Aceptar">
+      <p>{{ giftRequestStatus }}</p>
+    </b-modal>
   </div>
 </template>
 
@@ -42,6 +45,7 @@ export default {
   created() {
     emmiter.on('wishlistSelected', (wishlistid) => {
       this.getGiftsList(wishlistid);
+      localStorage.setItem('wishlistid', wishlistid);
     });
   },
   methods: {
@@ -109,13 +113,30 @@ export default {
           headers: headers
         });
 
-        if (response.ok) {
-          console.log('Gift booked successfully:', gift.id);
-
-        } else {
-          console.error('Error booking gift:', response.status, response.statusText);
-
-        }
+        if (response.status === 201) {
+            this.giftRequestStatus = 'Regalo reservado';
+            this.showConfirmationDialog = true;
+            this.getGiftsList(localStorage.getItem('wishlistid'));
+          } else if (response.status === 400) {
+            this.giftRequestStatus = 'Solicitud errónea';
+            this.showConfirmationDialog = true;
+            console.log('Solicitud erronea');
+          } else if (response.status === 406) {
+            this.giftRequestStatus = 'Solicitud errónea';
+            this.showConfirmationDialog = true;
+            console.log('Fallo en el token');
+          } else if (response.status === 409) {
+            this.giftRequestStatus = 'El gift ya está reservado';
+            this.showConfirmationDialog = true;
+          } else if (response.status === 500) {
+            this.giftRequestStatus = 'Solicitud errónea';
+            this.showConfirmationDialog = true;
+            console.log('Bad request');
+          } else {
+            this.giftRequestStatus = 'Error al reservar gift, inténtalo más tarde';
+            this.showConfirmationDialog = true;
+            console.log('Error Api');
+          }
       }
       catch (error) {
         console.error('Error booking gift:', error);
@@ -126,6 +147,40 @@ export default {
 
     },
     async deletereserved(gift) {
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/gifts/${gift.id}/book`;
+      const headers = {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: headers
+        });
+
+        if (response.status === 200) {
+            this.giftRequestStatus = 'Regalo desreservado';
+            this.showConfirmationDialog = true;
+            this.getGiftsList(localStorage.getItem('wishlistid'));
+          } else if (response.status === 401) {
+            this.giftRequestStatus = 'Solicitud errónea';
+            this.showConfirmationDialog = true;
+            console.log('Solicitud erronea');
+          } else if (response.status === 500) {
+            this.giftRequestStatus = 'Solicitud errónea';
+            this.showConfirmationDialog = true;
+            console.log('Bad request');
+          } else {
+            this.giftRequestStatus = 'Error al reservar gift, inténtalo más tarde';
+            this.showConfirmationDialog = true;
+            console.log('Error Api');
+          }
+      }
+      catch (error) {
+        console.error('Error booking gift:', error);
+
+      }
 
     }
   },
