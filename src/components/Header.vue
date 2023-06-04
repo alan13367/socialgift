@@ -1,6 +1,9 @@
 <template>
   <nav>
     <div class="menu">
+      <button class="burgerbutton">
+        <img src="@/assets/Imagenes/burger_icon.png" alt="Burger Menu" class="burgerimg">
+      </button>
       <div class="imglogo">
         <router-link to="/">
           <img src="logo.png" alt="Logo de la empresa" class="logo-image" />
@@ -98,7 +101,14 @@ export default {
 
 
 <style scoped>
-
+.burgerbutton{
+  display: flex;
+  height: auto;
+  background: transparent;
+}
+.burgerimg{
+  max-height: 20px;
+}
 .divbuttons{
   display: flex;
   flex-direction: row;
@@ -128,7 +138,6 @@ export default {
   display: flex;
   padding-right: 50px;
   position: relative;
-  display: flex;
 }
 
 

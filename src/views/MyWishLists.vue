@@ -9,7 +9,7 @@
     </div>
   </div>
   <button class="create-button" @click="showCreateForm = true">Crear lista de deseos</button>
-  <div v-if="showCreateForm">
+  <div v-if="showCreateForm" class="form">
     <h2>Crea una nueva lista de deseos</h2>
     <form @submit.prevent="submitCreateForm">
       <label for="name">Nombre:</label>
@@ -178,6 +178,21 @@ export default {
   background-color: #A33DA5;
   width: 100%;
   margin-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+  .wishlist-list{
+    width: 80%;
+  }
+  .create-button{
+    width: 80%;
+  }
+  .form{
+    width: 80%;
+  }
+  .wishlists{
+    width: 80%;
+  }
 }
 
 </style>
