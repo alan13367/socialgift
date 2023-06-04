@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import emmiter from '@/plugins/emmiter';
 export default {
   data() {
     return {
@@ -125,10 +124,9 @@ export default {
         })
         .catch(error => console.log(error));
     },
-    viewProfile(id) {
-      localStorage.setItem('ProfileView', id);
-      emmiter.emit('ProfileView', id);
-      this.$router.push({ path: '/UserProfile' });
+    viewProfile(idfriend) {
+      localStorage.setItem('ProfileView', idfriend);
+      this.$router.push({ path: '/FriendsProfile' });
     },
     acceptFriendRequest(id) {
       fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends/${id}`, {

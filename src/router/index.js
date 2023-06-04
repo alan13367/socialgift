@@ -10,6 +10,7 @@ import ChatsView from '../views/ChatsView.vue'
 import MyWishlists from '../views/MyWishLists.vue'
 import WishlistView from '../views/WishlistView.vue'
 import MyWishlistView from '../views/MyWishlistView.vue'
+import FriendsProfileView from '../views/FriendsProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
       name: 'FriendsPending',
       component: FriendsPending
 
+    },
+    {
+      path: '/FriendsProfile',
+      name: 'FriendsProfile',
+      component: FriendsProfileView
     },
     {
       path: '/Chats',

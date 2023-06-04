@@ -1,4 +1,5 @@
 <script>
+
 export default {
   data() {
     return {
@@ -11,16 +12,12 @@ export default {
     };
   },
   created() {
-    
-    const id = localStorage.getItem('id');
-      this.fetchProfileData(id);
-      this.getWishlists(id);
-    },
-    
-  
+      this.fetchProfileData();
+      this.getWishlists(); 
+  },
   methods: {
-    fetchProfileData(id) {
-      
+    fetchProfileData() {
+      const id = localStorage.getItem('ProfileView');
       const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}`;
       fetch(url, {
         method: "GET",
@@ -43,8 +40,9 @@ export default {
           console.error(error);
         });
     },
-    async getWishlists(id) {
-      const url = ` https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}/wishlists`;
+    async getWishlists() {
+      const id = localStorage.getItem('ProfileView');
+      const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users/${id}/wishlists`;
       const headers = {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -56,7 +54,6 @@ export default {
         console.log(json_response)
         if (json_response) {
           this.wishlists = json_response
-          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
           console.log(this.wishlists)
         } else {
           console.error('Error: Wishlists data is missing')
@@ -65,22 +62,11 @@ export default {
         console.error('Error calling API:', response.status)
       }
     },
-
-    chunkWishlists(wishlists, size) {
-      const rows = []
-      let index = 0
-      while (index < wishlists.length) {
-        rows.push(wishlists.slice(index, index + size))
-        index += size
-      }
-      return rows
-    },
     showDeleteConfirmation() {
       this.showConfirmationDialog  = true;
     },
     cancelDelete() {
       this.showConfirmationDialog  = false;
-      
     },
     deleteUser() {
       const url = `https://balandrau.salle.url.edu/i3/socialgift/api/v1/users`;
@@ -102,36 +88,70 @@ export default {
         })
         .catch(error => console.log(error));
     },
+    sendFriendRequest() {
+      const id = localStorage.getItem('ProfileView');
+      fetch(`https://balandrau.salle.url.edu/i3/socialgift/api/v1/friends/${id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'accept': 'application/json'
+        },
+        body: ''
+      })
+        .then(response => {
+          if (response.status === 201) {
+            this.friendRequestStatus = 'Solicitud enviada';
+            this.showConfirmationDialog = true;
+          } else if (response.status === 400) {
+            this.friendRequestStatus = 'Solicitud errónea';
+            this.showConfirmationDialog = true;
+            console.log('Solicitud erronea');
+          } else if (response.status === 401) {
+            this.friendRequestStatus = 'Solicitud errónea';
+            this.showConfirmationDialog = true;
+            console.log('Fallo en el token');
+          } else if (response.status === 409) {
+            this.friendRequestStatus = 'El usuario ya es tu amigo';
+            this.showConfirmationDialog = true;
+          } else if (response.status === 410) {
+            this.friendRequestStatus = 'El usuario ya no existe';
+            this.showConfirmationDialog = true;
+            console.log('El id de usuario no existe');
+            this.showConfirmationDialog = true;
+          } else {
+            this.friendRequestStatus = 'Error al enviar solicitud, inténtalo más tarde';
+            this.showConfirmationDialog = true;
+            console.log('Error Api');
+          }
+        })
+        .catch(error => console.log(error));
+    },
   },
+  
 };
 </script>
 
 <template>
   <div>
-    <div class="modal" v-if="showConfirmationDialog">
-      <div class="modal-content">
-        <p>¿Está seguro que desea eliminar este usuario?</p>
-        <div class="modal-actions">
-          <button class="modal-button yes" @click="deleteUser">Sí</button>
-          <button class="modal-button no" @click="cancelDelete">No</button>
-        </div>
-      </div>
-    </div>
-    <h2>Perfil</h2>
+    <h2>Perfil Amistad</h2>
     <div class="user-info">
       <img :src="profileData && profileData.image" alt="Foto de perfil" class="user-image" />
       <h3 class="user-name">{{ profileData && profileData.name }} {{ profileData && profileData.last_name }}</h3>
-      <button @click="showDeleteConfirmation">Borrar usuario</button>
+      <button @click="sendFriendRequest">Enviar solicitud de amistad</button>
+      
     </div>
     <div class="wishlist">
-      <h4>WishList</h4>
+      <h3>WishList</h3>
       <div class="wishlist-buttons">
         <button class="wishlistbtn" v-for="item in wishlists" :key="item.id">{{ item.name }}</button>
       </div>
     </div>
-
   </div>
+  <b-modal v-model="showConfirmationDialog" title="Confirmación" ok-title="Aceptar">
+      <p>{{ friendRequestStatus }}</p>
+    </b-modal>
 </template>
+
 
 <style scoped>
 main {
@@ -194,5 +214,3 @@ main {
   grid-gap: 1rem;
 }
 </style>
-
-
