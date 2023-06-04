@@ -9,28 +9,27 @@
     </div>
   </div>
   <button class="create-button" @click="showCreateForm = true">Crear lista de deseos</button>
-    <div v-if="showCreateForm">
-      <h2>Crea una nueva lista de deseos</h2>
-      <form @submit.prevent="submitCreateForm">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" v-model="newWishlist.name" required>
-        <label for="description">Descripción:</label>
-        <input type="text" id="description" v-model="newWishlist.description" required>
-        <label for="end_date">Fecha de finalización:</label>
-        <input type="date" id="end_date" v-model="newWishlist.end_date" required>
-        <button type="submit">Crear</button>
-      </form>
-    </div>
-    <div class="wishlists">
-      <div class="wishlist-row" v-for="(row, rowIndex) in chunkedWishlists" :key="rowIndex">
-        <div v-for="(wishlist, colIndex) in row" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id)">
-          <router-link :to="`/mywishlist`" class="wishlist">
-            <h3>{{ wishlist.name }}</h3>
-          </router-link>
-        </div>
+  <div v-if="showCreateForm">
+    <h2>Crea una nueva lista de deseos</h2>
+    <form @submit.prevent="submitCreateForm">
+      <label for="name">Nombre:</label>
+      <input type="text" id="name" v-model="newWishlist.name" required>
+      <label for="description">Descripción:</label>
+      <input type="text" id="description" v-model="newWishlist.description" required>
+      <label for="end_date">Fecha de finalización:</label>
+      <input type="date" id="end_date" v-model="newWishlist.end_date" required>
+      <button type="submit">Crear</button>
+    </form>
+  </div>
+  <div class="wishlists">
+    <div class="wishlist-row" v-for="(row, rowIndex) in chunkedWishlists" :key="rowIndex">
+      <div v-for="(wishlist, colIndex) in row" :key="wishlist.id" class="wishlist-container" @click="selectWishlist(wishlist.id)">
+        <router-link :to="`/mywishlist`" class="wishlist">
+          <h3>{{ wishlist.name }}</h3>
+        </router-link>
       </div>
     </div>
-  
+  </div>
 </template>
 
 <script>
@@ -42,28 +41,24 @@ export default {
       wishlists: [],
       chunkedWishlists: [],
       selectedWishlistId: null,
-    showCreateForm: false, 
-    newWishlist: { 
-      name: '',
-      description: '',
-      end_date: ''
+      showCreateForm: false,
+      newWishlist: {
+        name: '',
+        description: '',
+        end_date: ''
+      }
     }
-  }
-},
-    
+  },
   created() {
     const id = localStorage.getItem('id');
     this.getWishlists(id)
-    
   },
   methods: {
     selectWishlist(wishlistId) {
-      
       emmiter.emit('wishlistSelected', wishlistId);
     },
     async submitCreateForm() {
-      const url =
-        "https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists";
+      const url = "https://balandrau.salle.url.edu/i3/socialgift/api/v1/wishlists";
       const headers = {
         accept: "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -92,101 +87,108 @@ export default {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Content-Type': 'application/json'
-      }
-      const response = await fetch(url, { headers })
+      };
+      const response = await fetch(url, { headers });
       if (response.ok) {
-        const json_response = await response.json()
+        const json_response = await response.json();
         if (json_response) {
-          this.wishlists = json_response
-          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3)
+          this.wishlists = json_response;
+          this.chunkedWishlists = this.chunkWishlists(this.wishlists, 3);
         } else {
-          console.error('Error: Wishlists data is missing')
-          console.error(response)
+          console.error('Error: Wishlists data is missing');
+          console.error(response);
         }
       } else {
-        console.error('Error calling API:', response.status)
+        console.error('Error calling API:', response.status);
       }
     },
     search() {
-      
+      // Implement your search functionality
     },
     chunkWishlists(wishlists, size) {
-      const rows = []
-      let index = 0
+      const rows = [];
+      let index = 0;
       while (index < wishlists.length) {
-        rows.push(wishlists.slice(index, index + size))
-        index += size
+        rows.push(wishlists.slice(index, index + size));
+        index += size;
       }
-      return rows
+      return rows;
     }
   }
 }
 </script>
 
-  
-  <style scoped>
-    .wishlist-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .create-wishlist {
-      display: flex;
-      justify-content: flex-end;
-      width: 80%;
-    }
-    .search-bar {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-    }
-    .wishlists {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 80%;
-      flex-wrap: wrap;
-    }
-    .wishlist-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      width: 100%;
-    }
-    .wishlist-container {
-      margin: 10px;
-      width: 30%;
-    }
-    .wishlist {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      background-color: #A33DA5;
-      color: white;
-      border-radius: 15px;
-      width: 100%;
-      height: 100px;
-      justify-content: center;
-    }
-  
-    .wishlist h3 {
-      margin: 0;
-    }
-  
-    .title-search {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      width: 80%;
-    }
-  
-    .search-button {
-      background-color: #A33DA5;
-    }
-    .wishlist-list {
+<style scoped>
+.wishlist-list {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-  </style>
-  
+
+.title-search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.wishlists {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.wishlist-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.wishlist-container {
+  margin: 10px;
+  width: 100%;
+}
+
+.wishlist {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #A33DA5;
+  color: white;
+  border-radius: 15px;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+}
+
+.wishlist h3 {
+  margin: 0;
+}
+
+.create-button {
+  background-color: #A33DA5;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .wishlist-container {
+    width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  .wishlist-container {
+    width: 33.33%;
+  }
+}
+</style>

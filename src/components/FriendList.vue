@@ -7,11 +7,10 @@
       @click="toggleFriendActive(friend); getMessages(friend.id)"
       @mouseover="friend.highlighted = true"
       @mouseout="friend.highlighted = false"
-      :key="friend.id"
-    >
+      :key="friend.id">
       <img :src="friend.image" alt="Amigos">
-      <h3 class="name">{{ friend.name}}</h3>
-      <h3>{{friend.last_name}}</h3>
+      <h3 class="name" :class="{ 'hidden': hideNameOnMobile }">{{ friend.name}}</h3>
+      <h3 :class="{ 'hidden': hideNameOnMobile }">{{friend.last_name}}</h3>
     </div>
   </div>
 </template>
@@ -62,9 +61,21 @@ export default {
     async getMessages(friendId) {
       emitter.emit('getMessages', friendId);
     },
+    onMediaQueryChange(event) {
+      // Update the flag based on the media query match
+      this.hideNameOnMobile = event.matches;
+    }
   },
   mounted() {
     this.getFriends();
+    // Check if the media query matches on initial load
+    this.hideNameOnMobile = window.matchMedia('(max-width: 767px)').matches;
+    // Watch for changes in the media query
+    window.matchMedia('(max-width: 767px)').addListener(this.onMediaQueryChange);
+  },
+  beforeDestroy() {
+    // Clean up the media query listener when the component is destroyed
+    window.matchMedia('(max-width: 767px)').removeListener(this.onMediaQueryChange);
   },
 };
 </script>
@@ -103,5 +114,15 @@ export default {
 .friend-item.highlighted {
   background-color: #A33DA5;
   color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .friend-list {
+    width: 20%;
+  }
 }
 </style>
