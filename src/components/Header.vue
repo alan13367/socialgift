@@ -1,7 +1,29 @@
 <template>
   <nav>
+    <div class="sidebar" :class="{ 'sidebar-open': sidebarOpen }" @click="toggleSidebar">
+      <div class="menu-links" v-if="loggedIn && mediaQueryTriggered">
+        <router-link to="/mywishlists" class="menu-link">
+          Mis Listas
+        </router-link>
+        <router-link to="/ManageFriends" class="menu-link">
+          Amigos
+        </router-link>
+        <router-link to="/WishListFriends" class="menu-link">
+          Listas de regalos compartidas
+        </router-link>
+        <router-link to="/Chats" class="menu-link">
+          Chats
+        </router-link>
+        <router-link to="/FriendsPending" class="menu-link">
+          Solicitudes amigos
+        </router-link>
+        <router-link to="/UserProfile" class="menu-link" @click="getprofile">
+          Perfil
+        </router-link>
+      </div>
+    </div>
     <div class="menu">
-      <button class="burgerbutton">
+      <button class="burgerbutton" v-if="loggedIn && mediaQueryTriggered" @click="toggleSidebar">
         <img src="@/assets/Imagenes/burger_icon.png" alt="Burger Menu" class="burgerimg">
       </button>
       <div class="imglogo">
@@ -53,7 +75,8 @@ export default {
   data() {
     return {
       loggedIn: false,
-      mediaQueryTriggered: false
+      mediaQueryTriggered: false,
+      sidebarOpen: false
       };
   },
   created() {
@@ -86,13 +109,14 @@ export default {
       emmiter.emit('ProfileView', this.idFriend);
     },
     checkMediaQuery() {
-      // Check the media query condition here
-      // For example, using window.matchMedia
       if (window.matchMedia('(max-width: 767px)').matches) {
         this.mediaQueryTriggered = true;
       } else {
         this.mediaQueryTriggered = false;
       }
+    },
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen;
     }
   }
 };
@@ -218,6 +242,9 @@ export default {
 }
 
 @media (max-width: 767px) {
+  .burgerbutton{
+    width: 30%;
+  }
   .menu {
     width: 30%;
   }
@@ -225,5 +252,39 @@ export default {
   .actions{
     width: 20%;
   }
+  .sidebar {
+  padding-top: 70px;
+  position: fixed;
+  top: 70px;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background-color: #f2f2f2;
+  transition: left 0.3s ease-out;
+}
+
+.sidebar-open {
+  left: 0;
+}
+
+.menu-links {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .menu-link {
+    display: flex;
+    font-family: 'Inter';
+    font-style: semibold;
+    font-weight: 100;
+    font-size: 18px;
+    color: #000000;
+    text-decoration: none;
+    padding-bottom: 1%;
+    padding-bottom: 20px;
+    border-bottom: 2px solid transparent;
+  }
+
 }
 </style>
